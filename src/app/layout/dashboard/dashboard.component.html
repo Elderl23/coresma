@@ -1,0 +1,79 @@
+<div class="row center-xs row-menu-general">
+  <div class="col-xs-6">
+      <div class="card">
+          <div class="card-header">
+              <i class="icon-link"></i> Formulario
+          </div>
+          <div class="card-block">
+              <form  novalidate>
+
+                  <fieldset class="form-group">
+                      <label>URL</label>
+                      <div class="input-group">
+                          <span class="input-group-addon alignJustifyCenter">
+                              <i class="icon-link icon-formulario"></i>
+                          </span>
+                          <input type="text" class="form-control" formControlName="url">
+                      </div>
+                  </fieldset>
+
+                  <fieldset class="form-group">
+                      <label>Servicios</label>
+                      <div class="input-group">
+                          <span class="input-group-addon alignJustifyCenter">
+                              <i class="icon-hammer icon-formulario"></i>
+                          </span>
+
+                          <select id="select" name="select" class="form-control" size="1" formControlName="cifrado">
+                              <option value="">Por favor seleccione</option>
+                              <option value="0">Externo</option>
+                              <option value="1">Asesor</option>
+                              <option value="1">Mesa</option>
+                              <option value="2">Servicios</option>
+                              <option value="3">Portal</option>
+                          </select>
+
+                      </div>
+                  </fieldset>
+
+                  <fieldset class="form-group">
+                      <label>Proxy</label>
+
+                      <div class="input-group">
+
+                          <label class="switch switch-icon switch-pill switch-success">
+                                      <input type="checkbox" id="is3dCheckBoxProxy" class="switch-input ng-valid ng-touched ng-dirty">
+                                      <span class="switch-label" data-off="✘" data-on="✔" name="proxy"></span>
+                                      <span class="switch-handle"></span>
+                          </label>
+
+                      </div>
+                  </fieldset>
+
+
+                  <fieldset class="form-group">
+                      <label>Parametros</label>
+                      <div class="input-group">
+                          <span class="input-group-addon alignJustifyCenter">
+                              <i class="icon-enter icon-formulario"></i>
+                          </span>
+
+                          <textarea id="textarea-input" name="textarea-input" rows="5" class="form-control" placeholder="Content.." formControlName="body"></textarea>
+
+                      </div>
+                  </fieldset>
+
+                  <br>
+                  <fieldset class="form-group">
+                      <div class="input-group">
+                          <button type="submit" class="btn btn-success"><i class="icon-floppy-disk"></i>&nbsp; Enviar</button>                                    &nbsp;&nbsp;
+                          <button type="button" class="btn btn-primary"><i class="icon-bin"></i>&nbsp; Limpiar</button>
+                          <!--<button (click)="clicked($event)" class="btn btn-primary"></button>-->
+
+                      </div>
+                  </fieldset>
+              </form>
+          </div>
+      </div>
+  </div>
+</div>
