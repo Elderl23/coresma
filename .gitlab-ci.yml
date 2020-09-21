@@ -1,11 +1,12 @@
-before_script:
-    - apt-get update -qq
-    - apt-get install -qq git
-    # Setup SSH deploy keys
-    - 'which ssh-agent || ( apt-get install -qq openssh-client )'
-    - eval $(ssh-agent -s)
-    - apt-get install sshpass
-    - apt-get install openssh-client
+.before_script_template:
+    before_script:
+        - apt-get update -qq
+        - apt-get install -qq git
+        # Setup SSH deploy keys
+        - 'which ssh-agent || ( apt-get install -qq openssh-client )'
+        - eval $(ssh-agent -s)
+        - apt-get install sshpass
+        - apt-get install openssh-client
 
 image: node:10
 
@@ -48,10 +49,12 @@ build:
         - master
 
 deploy_staging:
+    extends: .before_script_template
     stage: deploy
     dependencies:
         - build
     script:
+        - ls
         - cd dist/
         - ls
         - sshpass -V
