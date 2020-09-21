@@ -29,7 +29,7 @@ build:
     dependencies:
         - install
     script:
-      - ng build --prod
+      - npm run build --prod
     artifacts:
         expire_in: 1h 
         paths:
