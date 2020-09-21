@@ -1,19 +1,23 @@
-
 image: node:10:16.0
 
 stages:
-    - install
-    - build
-    - deploy
+  - install
+  - build
+  - test
+  - deploy
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - node_modules/
 
 install:
-    stages: install
-    script:
-        - npm install
-    artifacts:
-        expire_in: 1h 
-        paths:
-            - node_modules/
-        cache:
-            paths:
-                - node_modules/
+  stage: install
+  script:
+    - npm install
+  artifacts:
+    expire_in: 1h 
+    paths:
+      - node_modules/
+  only:
+    - master
