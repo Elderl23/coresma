@@ -17,8 +17,8 @@ export class TiemposLiturgicosService {
             }));
     }
 
-    consulta(): Observable<TiemposLiturgicos[]>  {
-        return this.http.get<TiemposLiturgicos[]>(`${environment.apiUrlCoresmaApp}api/tiempos/liturgicos/consulta`)
+    consulta()  {
+        return this.http.get(`${environment.apiUrlCoresmaApp}api/tiempos/liturgicos/consulta`)
             .pipe(map(data => {
                 return data;
             }

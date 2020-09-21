@@ -2,13 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor,HttpResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 
-import { AuthenticationService } from '@app/_services';
-
 import { map } from 'rxjs/operators';
 
 @Injectable()
 export class SuccessInterceptor implements HttpInterceptor {
-    constructor(private authenticationService: AuthenticationService) { }
+    constructor() { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return next.handle(request).pipe(map((event: HttpEvent<any>) => {
