@@ -15,9 +15,10 @@ stages:
   - deploy
 
 cache:
-  key: ${CI_COMMIT_REF_SLUG}
-  paths:
-    - node_modules/
+    key: "$CI_BUILD_REF_NAME"
+    untracked: true
+    paths:
+        - node_modules/
 
 install:
   stage: install
@@ -48,6 +49,8 @@ build:
 
 deploy_staging:
     stage: deploy
+    dependencies:
+        - build
     script:
         - pwd
         - ls
