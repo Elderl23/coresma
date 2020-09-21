@@ -49,6 +49,8 @@ build:
 deploy_staging:
     stage: deploy
     script:
+        - pwd
+        - ls
         - cd dist/
         - ls
         - sshpass -V
