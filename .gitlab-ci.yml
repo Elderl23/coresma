@@ -1,3 +1,12 @@
+before_script:
+    - apt-get update -qq
+    - apt-get install -qq git
+    # Setup SSH deploy keys
+    - 'which ssh-agent || ( apt-get install -qq openssh-client )'
+    - eval $(ssh-agent -s)
+    - apt-get install sshpass
+    - apt-get install openssh-client
+
 image: node:10
 
 stages:
@@ -34,5 +43,15 @@ build:
         expire_in: 1h 
         paths:
           - dist/
+    only:
+        - master
+
+deploy_staging:
+    stage: deploy
+    script:
+        - cd dist/
+        - ls
+        - sshpass -V
+        - export SSHPASS=$vps_key
     only:
         - master
