@@ -56,6 +56,6 @@ deploy_staging:
         - ls
         - sshpass -V
         - export SSHPASS=$vps_key
-        - sshpass -e scp -o stricthostkeychecking=no -r . root@157.245.221.220:/var/apps/docker/angular/coresmaAdmin
+        - sshpass -e scp -o stricthostkeychecking=no -r $(pwd) root@157.245.221.220:/var/apps/docker/angular/coresmaAdmin
     only:
         - master
