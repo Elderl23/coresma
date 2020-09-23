@@ -10,7 +10,9 @@
   border: 1px solid transparent;
   padding: 0.5rem 1rem;
   font-size: 0.875rem;
-  transition: all 0.2s ease-in-out; }
+  transition: all 0.2s ease-in-out;
+  margin-left: 5px;
+}
   .btn:focus, .fc button:focus, .btn.focus, .fc button.focus, .btn:active:focus, .fc button:active:focus, .btn:active.focus, .fc button:active.focus, .btn.active:focus, .fc button.active:focus, .btn.active.focus, .fc button.active.focus {
     outline: 5px auto -webkit-focus-ring-color;
     outline-offset: -2px; }
@@ -145,7 +147,9 @@ fieldset[disabled] a.btn {
   .btn-success:focus, .btn-success.focus {
     color: #fff;
     background-color: #3a9d5d;
-    border-color: #379558; }
+    border-color: #379558;
+    outline:0;
+  }
   .btn-success:active, .btn-success.active,
   .open > .btn-success.dropdown-toggle {
     color: #fff;

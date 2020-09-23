@@ -28,11 +28,6 @@ export class LoginComponent implements OnInit {
     return this.loginForm.get('password').invalid && this.loginForm.get('password').touched;
  }
 
-//  openMenuMovil(){
-//   let overlay = document.getElementsByClassName('mobile_nav_items')[0];
-//   overlay.classList.toggle('active');
-//  }
-
   onSubmit() {
     if (!this.loginForm.invalid) {
       this.authenticationService.login(this.loginForm.value)

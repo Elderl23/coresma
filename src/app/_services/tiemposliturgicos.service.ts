@@ -4,21 +4,38 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { environment } from '@environments/environment';
-import { TiemposLiturgicos } from '@app/_models';
+import { HttpClientInterface } from '@app/_models';
 
 @Injectable({ providedIn: 'root' })
 export class TiemposLiturgicosService {
     constructor(private http: HttpClient) {}
-    
-    actualizar(body) {
-        return this.http.post<any>(`${environment.apiUrlCoresmaApp}api/tiempos/liturgicos/consulta`,body)
+
+    consulta(): Observable<HttpClientInterface>  {
+        return this.http.get<HttpClientInterface>(`${environment.apiUrlCoresmaApp}api/tiempos/liturgicos/consulta`)
             .pipe(map(data => {
                 return data;
-            }));
+            }
+        ));
     }
 
-    consulta()  {
-        return this.http.get(`${environment.apiUrlCoresmaApp}api/tiempos/liturgicos/consulta`)
+    guardar(data): Observable<HttpClientInterface>  {
+        return this.http.post<HttpClientInterface>(`${environment.apiUrlCoresmaApp}api/tiempos/liturgicos/agregar`, data)
+            .pipe(map(data => {
+                return data;
+            }
+        ));
+    }
+
+    editar(data,id): Observable<HttpClientInterface>  {
+        return this.http.post<HttpClientInterface>(`${environment.apiUrlCoresmaApp}api/tiempos/liturgicos/editar/${id}`, data)
+            .pipe(map(data => {
+                return data;
+            }
+        ));
+    }
+
+    eliminar(id): Observable<HttpClientInterface>  {
+        return this.http.get<HttpClientInterface>(`${environment.apiUrlCoresmaApp}api/tiempos/liturgicos/eliminar/${id}`)
             .pipe(map(data => {
                 return data;
             }

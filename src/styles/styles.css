@@ -689,3 +689,9 @@ body{
     display: flex;
     flex-direction: column;
   }
+
+    
+  .text-error-input-general-form{
+    font-size: 14px;
+    color: red;
+}

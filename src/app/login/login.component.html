@@ -14,14 +14,12 @@
   
   
       <div class="form-group">
-        <input class="un " type="text" align="center" formControlName="username" id="inputUserName"
-          [class.is-invalid]="userNameNoValido" placeholder="Username">
+        <input class="un " type="text" align="center" formControlName="username" id="inputUserName" [class.is-invalid]="userNameNoValido" placeholder="Username">
         <span class="text-error-input" *ngIf="userNameNoValido"> Este campo es requerido</span>
       </div>
   
       <div class="form-group">
-        <input class="pass" type="password" align="center" formControlName="password" id="inputPassword"
-          [class.is-invalid]="passwordNoValido" placeholder="Password">
+        <input class="pass" type="password" align="center" formControlName="password" id="inputPassword" [class.is-invalid]="passwordNoValido" placeholder="Password">
         <span class="text-error-input" *ngIf="passwordNoValido"> Este campo es requerido</span>
       </div>
   

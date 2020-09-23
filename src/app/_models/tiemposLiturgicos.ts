@@ -1,7 +1,11 @@
 export interface TiemposLiturgicos {
-    _id: string;
-    titulo: string;
+    jsonResultado: Array<JsonResultado>;
+}
+
+export interface JsonResultado {
     descripcion: string;
+    status: boolean;
+    titulo: string;
     urlimagen: string;
-    status: string;
+    _id: string;
 }

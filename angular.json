@@ -27,7 +27,8 @@
               "src/styles/styles.css",
               "src/styles/formularios.css",
               "src/styles/botones.css",
-              "src/styles/icomoon.css"
+              "src/styles/icomoon.css",
+              "src/styles/Loading.css"
             ],
             "scripts": [
               "src/js/script.js"
