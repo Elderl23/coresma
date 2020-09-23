@@ -27,7 +27,7 @@ export class TiemposLiturgicosService {
     }
 
     editar(data,id): Observable<HttpClientInterface>  {
-        return this.http.post<HttpClientInterface>(`${environment.apiUrlCoresmaApp}api/tiempos/liturgicos/editar/${id}`, data)
+        return this.http.put<HttpClientInterface>(`${environment.apiUrlCoresmaApp}api/tiempos/liturgicos/editar/${id}`, data)
             .pipe(map(data => {
                 return data;
             }
@@ -35,7 +35,7 @@ export class TiemposLiturgicosService {
     }
 
     eliminar(id): Observable<HttpClientInterface>  {
-        return this.http.get<HttpClientInterface>(`${environment.apiUrlCoresmaApp}api/tiempos/liturgicos/eliminar/${id}`)
+        return this.http.delete<HttpClientInterface>(`${environment.apiUrlCoresmaApp}api/tiempos/liturgicos/eliminar/${id}`)
             .pipe(map(data => {
                 return data;
             }
