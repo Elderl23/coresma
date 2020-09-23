@@ -71,6 +71,9 @@ export class TiemposLiturgicosComponent implements OnInit {
             _id: "",
         };
         this.typeSubmit = "";
+        this.tLiturgicoForm.controls["titulo"].setValue("");
+        this.tLiturgicoForm.controls["descripcion"].setValue("");
+        this.tLiturgicoForm.controls["urlimagen"].setValue("");
     }
 
 
