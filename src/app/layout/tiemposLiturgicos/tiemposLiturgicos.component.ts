@@ -14,15 +14,15 @@ export class TiemposLiturgicosComponent implements OnInit {
     private typeSubmit: String = "";
     private itemSelected: JsonResultado;
 
-    public tLiturgicoForm: FormGroup;
+    public formGroup: FormGroup;
     public tiempoLiturgicos: TiemposLiturgicos;
     
 
     constructor(
         private formBuilder: FormBuilder,
-        private tiemposLiturgicosService: TiemposLiturgicosService,
+        private apiService: TiemposLiturgicosService,
     ) {
-        this.tLiturgicoForm = this.formBuilder.group({
+        this.formGroup = this.formBuilder.group({
             titulo: ['', Validators.required],
             descripcion: ['', Validators.required],
             urlimagen: ['', Validators.required],
@@ -30,15 +30,15 @@ export class TiemposLiturgicosComponent implements OnInit {
     }
 
     get tituloNoValido() {
-        return this.tLiturgicoForm.get('titulo').invalid && this.tLiturgicoForm.get('titulo').touched;
+        return this.formGroup.get('titulo').invalid && this.formGroup.get('titulo').touched;
     }
 
     get descripcionNoValido() {
-        return this.tLiturgicoForm.get('descripcion').invalid && this.tLiturgicoForm.get('descripcion').touched;
+        return this.formGroup.get('descripcion').invalid && this.formGroup.get('descripcion').touched;
     }
 
     get urlimagenNoValido() {
-        return this.tLiturgicoForm.get('urlimagen').invalid && this.tLiturgicoForm.get('urlimagen').touched;
+        return this.formGroup.get('urlimagen').invalid && this.formGroup.get('urlimagen').touched;
     }
 
     ngOnInit() {
@@ -46,7 +46,7 @@ export class TiemposLiturgicosComponent implements OnInit {
     }
 
     private consulta():void {
-        this.tiemposLiturgicosService.consulta()
+        this.apiService.consulta()
             .subscribe(data => {
                 this.tiempoLiturgicos = data.jsonResultado;
             });
@@ -56,9 +56,9 @@ export class TiemposLiturgicosComponent implements OnInit {
         this.itemSelected = item;
         this.typeSubmit = type;
         if (type === 'editar') {
-            this.tLiturgicoForm.controls["titulo"].setValue(String(this.itemSelected.titulo));
-            this.tLiturgicoForm.controls["descripcion"].setValue(String(this.itemSelected.descripcion));
-            this.tLiturgicoForm.controls["urlimagen"].setValue(String(this.itemSelected.urlimagen));
+            this.formGroup.controls["titulo"].setValue(String(this.itemSelected.titulo));
+            this.formGroup.controls["descripcion"].setValue(String(this.itemSelected.descripcion));
+            this.formGroup.controls["urlimagen"].setValue(String(this.itemSelected.urlimagen));
         }
     }
 
@@ -71,16 +71,16 @@ export class TiemposLiturgicosComponent implements OnInit {
             _id: "",
         };
         this.typeSubmit = "";
-        this.tLiturgicoForm.controls["titulo"].setValue("");
-        this.tLiturgicoForm.controls["descripcion"].setValue("");
-        this.tLiturgicoForm.controls["urlimagen"].setValue("");
+        this.formGroup.controls["titulo"].setValue("");
+        this.formGroup.controls["descripcion"].setValue("");
+        this.formGroup.controls["urlimagen"].setValue("");
     }
 
 
     public guardar(): void {
-        if (!this.tLiturgicoForm.invalid) {
+        if (!this.formGroup.invalid) {
             if (this.typeSubmit !== "editar") {
-                this.tiemposLiturgicosService.guardar(this.tLiturgicoForm.value)
+                this.apiService.guardar(this.formGroup.value)
                 .subscribe(
                     data => {
                         this.displayModal = false;
@@ -93,7 +93,7 @@ export class TiemposLiturgicosComponent implements OnInit {
                     });
             } else {
 
-                this.tiemposLiturgicosService.editar(this.tLiturgicoForm.value,this.itemSelected._id)
+                this.apiService.editar(this.formGroup.value,this.itemSelected._id)
                 .subscribe(
                     data => {
                         this.displayModal = false;
@@ -109,7 +109,7 @@ export class TiemposLiturgicosComponent implements OnInit {
             
 
         } else {
-            return Object.values(this.tLiturgicoForm.controls).forEach(control => {
+            return Object.values(this.formGroup.controls).forEach(control => {
                 control.markAsTouched();
             }
             )
@@ -121,7 +121,7 @@ export class TiemposLiturgicosComponent implements OnInit {
     }
 
     public eliminar(id): void {
-        this.tiemposLiturgicosService.eliminar(id)
+        this.apiService.eliminar(id)
             .subscribe(
                 data => {
                     this.displayModal = false;

@@ -6,7 +6,7 @@
                 <div class="table-wrapper">
                     <div class="table-title">
                         <div class="title-card">
-                            <h2>Manage <b>Employees</b></h2>
+                            <h2>Tiempos <b>Liturgicos</b></h2>
                         </div>
                         <div class="btn-card">
                             <a  class="btn btn-success" (click)="displayModal = !displayModal;cancelTypeSubmit()"><i class="icon-plus"></i> <span>Tiempos Liturgicos</span></a>						
@@ -55,7 +55,7 @@
 	    </div>
 	    <div class="modal-body">
 	        <div class="card-block">
-	            <form [formGroup]="tLiturgicoForm" (ngSubmit)="guardar()" novalidate>
+	            <form [formGroup]="formGroup" (ngSubmit)="guardar()" novalidate>
 
                     <fieldset class="form-group" >
 	                    <label>Título</label>
