@@ -1,30 +1,30 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { TiemposLiturgicosService } from '@app/_services';
-import { TiemposLiturgicos, JsonResultado } from '@app/_models';
+
+import { TipoEsquemasLiturgicosService } from '@app/_services';
+import { TipoEsquemasLiturgicos, JsonResultadoTipoEsquemasLiturgicos } from '@app/_models';
 
 @Component({
-    selector: 'app-tables',
-    templateUrl: './tiemposLiturgicos.component.html',
+    selector: 'app-tables', 
+    templateUrl: './component.html',
 })
-export class TiemposLiturgicosComponent implements OnInit {
+export class component implements OnInit {
     public showDialogAlert: Boolean = false;
     public displayModal: Boolean = false;
     private typeSubmit: String = "";
-    private itemSelected: JsonResultado;
-
+    private itemSelected: JsonResultadoTipoEsquemasLiturgicos;
     public formGroup: FormGroup;
-    public tiempoLiturgicos: TiemposLiturgicos;
+
+    public esquemaCantos: TipoEsquemasLiturgicos;//Variable que se va a iterar en el template
     
 
     constructor(
         private formBuilder: FormBuilder,
-        private apiService: TiemposLiturgicosService,
+        private apiService: TipoEsquemasLiturgicosService,
     ) {
         this.formGroup = this.formBuilder.group({
             titulo: ['', Validators.required],
-            descripcion: ['', Validators.required],
-            urlimagen: ['', Validators.required],
+            tiempoliturgico: [false],
         });
     }
 
@@ -32,13 +32,6 @@ export class TiemposLiturgicosComponent implements OnInit {
         return this.formGroup.get('titulo').invalid && this.formGroup.get('titulo').touched;
     }
 
-    get descripcionNoValido() {
-        return this.formGroup.get('descripcion').invalid && this.formGroup.get('descripcion').touched;
-    }
-
-    get urlimagenNoValido() {
-        return this.formGroup.get('urlimagen').invalid && this.formGroup.get('urlimagen').touched;
-    }
 
     ngOnInit() {
         this.consulta();
@@ -47,7 +40,7 @@ export class TiemposLiturgicosComponent implements OnInit {
     private consulta():void {
         this.apiService.consulta()
             .subscribe(data => {
-                this.tiempoLiturgicos = data.jsonResultado;
+                this.esquemaCantos = data.jsonResultado;// ----> jsonResultado No se cambia viene la de interfaz de HttpClientInterface
             });
     }
 
@@ -56,23 +49,20 @@ export class TiemposLiturgicosComponent implements OnInit {
         this.typeSubmit = type;
         if (type === 'editar') {
             this.formGroup.controls["titulo"].setValue(String(this.itemSelected.titulo));
-            this.formGroup.controls["descripcion"].setValue(String(this.itemSelected.descripcion));
-            this.formGroup.controls["urlimagen"].setValue(String(this.itemSelected.urlimagen));
+            // this.formGroup.controls["tiempoliturgico"].setValue(this.itemSelected.tiempoliturgico);
         }
     }
 
     public cancelTypeSubmit():void{
         this.itemSelected = {
-            descripcion: "",
-            status: false,
             titulo: "",
-            urlimagen: "",
+            esquemasCantos:this.itemSelected.esquemasCantos,
+            status: false,
             _id: "",
         };
         this.typeSubmit = "";
         this.formGroup.controls["titulo"].setValue("");
-        this.formGroup.controls["descripcion"].setValue("");
-        this.formGroup.controls["urlimagen"].setValue("");
+        // this.formGroup.controls["tiempoliturgico"].setValue(false);
     }
 
 

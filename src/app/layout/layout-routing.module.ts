@@ -10,6 +10,8 @@ const routes: Routes = [
             { path: '', redirectTo: 'dashboard', pathMatch: 'prefix' },
             { path: 'dashboard', loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule) },
             { path: 'tiempos-liturgicos', loadChildren: () => import('./tiemposLiturgicos/tiemposLiturgicos.module').then(m => m.TiemposLiturgicosModule) },
+            { path: 'esquemas-cantos', loadChildren: () => import('./esquemasCantos/esquemasCantos.module').then(m => m.EsquemasCantosModule) },
+            { path: 'tipos-esquemas-liturgicos', loadChildren: () => import('./tiposEsquemasLiturgicos/module').then(m => m.Module) },
 
         ]
     }
