@@ -19,7 +19,7 @@ export class CantosService {
     }
 
     guardar(data): Observable<HttpClientInterface>  {
-        return this.http.post<HttpClientInterface>(`${environment.apiUrlCoresmaApp}api/tipos/esquemas/liturgicos/agregar`, data)
+        return this.http.post<HttpClientInterface>(`${environment.apiUrlCoresmaApp}api/cantos/admin/agregar`, data)
             .pipe(map(data => {
                 return data;
             }
@@ -27,7 +27,7 @@ export class CantosService {
     }
 
     editar(data,id): Observable<HttpClientInterface>  {
-        return this.http.put<HttpClientInterface>(`${environment.apiUrlCoresmaApp}api/tipos/esquemas/liturgicos/editar/${id}`, data)
+        return this.http.put<HttpClientInterface>(`${environment.apiUrlCoresmaApp}api/cantos/admin/editar/${id}`, data)
             .pipe(map(data => {
                 return data;
             }
@@ -35,7 +35,7 @@ export class CantosService {
     }
 
     eliminar(id): Observable<HttpClientInterface>  {
-        return this.http.delete<HttpClientInterface>(`${environment.apiUrlCoresmaApp}api/tipos/esquemas/liturgicos/eliminar/${id}`)
+        return this.http.delete<HttpClientInterface>(`${environment.apiUrlCoresmaApp}api/cantos/admin/eliminar/${id}`)
             .pipe(map(data => {
                 return data;
             }

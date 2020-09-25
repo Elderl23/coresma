@@ -4,6 +4,7 @@ export interface Cantos {
 
 export interface JsonResultadoCantos {
     titulo: string;
+    descripcion: string;
     esquemasCantos:EsquemasCantos,
     tiemposLiturgiscos:TiemposLiturgiscos,
     status: boolean;

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
-import { TipoEsquemasLiturgicosService } from '@app/_services';
-import { TipoEsquemasLiturgicos, JsonResultadoTipoEsquemasLiturgicos } from '@app/_models';
+import { TipoEsquemasLiturgicosService, EsquemasCantosService } from '@app/_services';
+import { TipoEsquemasLiturgicos, JsonResultadoTipoEsquemasLiturgicos, EsquemasCantos } from '@app/_models';
 
 @Component({
     selector: 'app-tables', 
@@ -13,18 +13,20 @@ export class component implements OnInit {
     public displayModal: Boolean = false;
     private typeSubmit: String = "";
     private itemSelected: JsonResultadoTipoEsquemasLiturgicos;
+    public esquemasCantos: EsquemasCantos;
     public formGroup: FormGroup;
 
-    public esquemaCantos: TipoEsquemasLiturgicos;//Variable que se va a iterar en el template
+    public tipoEsquemaCantos: TipoEsquemasLiturgicos;//Variable que se va a iterar en el template
     
 
     constructor(
         private formBuilder: FormBuilder,
         private apiService: TipoEsquemasLiturgicosService,
+        private apiServiceCatalogos: EsquemasCantosService,
     ) {
         this.formGroup = this.formBuilder.group({
             titulo: ['', Validators.required],
-            tiempoliturgico: [false],
+            esquemasCantos: ['', Validators.required],
         });
     }
 
@@ -32,15 +34,26 @@ export class component implements OnInit {
         return this.formGroup.get('titulo').invalid && this.formGroup.get('titulo').touched;
     }
 
+    get esquemasCantosNoValido() {
+        return this.formGroup.get('esquemasCantos').invalid && this.formGroup.get('esquemasCantos').touched;
+    }
+
 
     ngOnInit() {
         this.consulta();
-    }
+    }   
 
     private consulta():void {
         this.apiService.consulta()
             .subscribe(data => {
-                this.esquemaCantos = data.jsonResultado;// ----> jsonResultado No se cambia viene la de interfaz de HttpClientInterface
+                this.tipoEsquemaCantos = data.jsonResultado;// ----> jsonResultado No se cambia viene la de interfaz de HttpClientInterface
+            });
+    }
+
+    private consultaCatalogoEsquemasCantos():void {
+        this.apiServiceCatalogos.consulta()
+            .subscribe(data => {
+                this.esquemasCantos = data.jsonResultado;// ----> jsonResultado No se cambia viene la de interfaz de HttpClientInterface
             });
     }
 
@@ -49,20 +62,13 @@ export class component implements OnInit {
         this.typeSubmit = type;
         if (type === 'editar') {
             this.formGroup.controls["titulo"].setValue(String(this.itemSelected.titulo));
-            // this.formGroup.controls["tiempoliturgico"].setValue(this.itemSelected.tiempoliturgico);
         }
     }
 
     public cancelTypeSubmit():void{
-        this.itemSelected = {
-            titulo: "",
-            esquemasCantos:this.itemSelected.esquemasCantos,
-            status: false,
-            _id: "",
-        };
+        this.consultaCatalogoEsquemasCantos();
         this.typeSubmit = "";
         this.formGroup.controls["titulo"].setValue("");
-        // this.formGroup.controls["tiempoliturgico"].setValue(false);
     }
 
 

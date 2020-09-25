@@ -16,7 +16,11 @@ export class LayoutComponent implements OnInit {
     ngOnInit() { 
         this.store.select('spinner').subscribe(
             spinner =>{
-                this.spinner = spinner;
+                console.log('====================================');
+                console.log(spinner);
+                console.log(typeof(spinner));
+                console.log('====================================');
+                // this.spinner = spinner;
             }
         );
      }

@@ -62,13 +62,6 @@ export class TiemposLiturgicosComponent implements OnInit {
     }
 
     public cancelTypeSubmit():void{
-        this.itemSelected = {
-            descripcion: "",
-            status: false,
-            titulo: "",
-            urlimagen: "",
-            _id: "",
-        };
         this.typeSubmit = "";
         this.formGroup.controls["titulo"].setValue("");
         this.formGroup.controls["descripcion"].setValue("");

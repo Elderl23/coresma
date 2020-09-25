@@ -39,7 +39,7 @@
                                         </span>
                                 </td>
                                 <td>
-                                    <a class="verde" (click)="gotoDetail(item._id)">
+                                    <a class="verde" (click)="gotoDetail(item)">
                                         <i class="icon-file-text"></i>
                                     </a>
                                 </td>
@@ -85,21 +85,54 @@
                             <input type="text" class="form-control" formControlName="titulo" [class.is-invalid]="tituloNoValido">
 
                         </div>
-                        <span class="text-error-input-general-form" *ngIf="tituloNoValido"> Este campo es
-                            requerido</span>
+                        <span class="text-error-input-general-form" *ngIf="tituloNoValido"> Este campo es requerido</span>
+                    </fieldset>
+
+
+                     <fieldset class="form-group">
+                        <label>Descripción</label>
+                        <div class="input-group">
+                            <span class="input-group-addon alignJustifyCenter">
+                                <i class="icon-link icon-formulario"></i>
+                            </span>
+                            <input type="text" class="form-control" formControlName="descripcion" [class.is-invalid]="descripcionNoValido">
+
+                        </div>
+                        <span class="text-error-input-general-form" *ngIf="descripcionNoValido"> Este campo es requerido</span>
                     </fieldset>
 
                     <fieldset class="form-group">
-                        <label>Ligado a Un tiempo Liturgico?</label>
+                        <label>Esquema Canto</label>
                         <div class="input-group">
-                            <label class="switch switch-icon switch-pill switch-success">
-                                <input type="checkbox" id="is3dCheckBoxProxy" class="switch-input ng-valid ng-touched ng-dirty" formControlName="tiempoliturgico">
-                                <span class="switch-label" data-off="✘" data-on="✔" name="proxy"></span>
-                                <span class="switch-handle"></span>
-                            </label>
+                            <span class="input-group-addon alignJustifyCenter">
+                                <i class="icon-link icon-formulario"></i>
+                            </span>
+                            <select class="form-control" formControlName="esquemaCanto" [class.is-invalid]="esquemaCantoNoValido">
+                                <option value="" selected>Seleccione</option>
+                                <option *ngFor="let item of tiempoLiturgicos" [value]="item._id">{{ item.titulo }}</option>
+                            </select>
+
                         </div>
+                        <span class="text-error-input-general-form" *ngIf="esquemaCantoNoValido"> Este campo es requerido</span>
                     </fieldset>
 
+                    <fieldset class="form-group">
+                        <label>Tiempo Liturgico</label>
+                        <div class="input-group">
+                            <span class="input-group-addon alignJustifyCenter">
+                                <i class="icon-link icon-formulario"></i>
+                            </span>
+                            <select class="form-control" formControlName="tiempoLiturgico" [class.is-invalid]="tiempoLiturgicoNoValido">
+                                <option value="" selected>Seleccione</option>
+                                <option *ngFor="let item of esquemasCantos" [value]="item._id">{{ item.titulo }}</option>
+                            </select>
+
+                        </div>
+                        <span class="text-error-input-general-form" *ngIf="tiempoLiturgicoNoValido"> Este campo es requerido</span>
+                    </fieldset>
+
+
+                    
 
                     <div class="modal-footer">
                         <button class="btn btn-primary" (click)="displayModal = !displayModal">
