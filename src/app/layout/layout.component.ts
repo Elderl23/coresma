@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { AppState } from '@app/_redux/spinner/interface';
 
 @Component({
     selector: 'app-layout',
@@ -7,15 +9,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LayoutComponent implements OnInit {
 
-    collapedSideBar: boolean;
+    public spinner: boolean = false;
 
-    constructor() { }
+    constructor(private store: Store<AppState>) { }
 
-    ngOnInit() { }
+    ngOnInit() { 
+        this.store.select('spinner').subscribe(
+            spinner =>{
+                this.spinner = spinner;
+            }
+        );
+     }
 
     openMenuMovil() {
-        console.log("pasamos");
-
         let overlay = document.getElementsByClassName('mobile_nav_items')[0];
         overlay.classList.toggle('active');
     }

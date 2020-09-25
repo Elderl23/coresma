@@ -5,7 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms'
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { StoreModule } from '@ngrx/store';
-import { spinnersReducer } from './_redux/reducer'
+import { spinnersReducer } from './_redux/spinner/reducer'
 
 import { HeadersInterceptor, SuccessInterceptor, ErrorInterceptor } from './_helpers';
 import { AuthGuard } from './shared';
@@ -23,7 +23,7 @@ import { AppComponent } from './app.component';
     HttpClientModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    StoreModule.forRoot({redux:spinnersReducer})
+    StoreModule.forRoot({spinner:spinnersReducer})
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HeadersInterceptor, multi: true },

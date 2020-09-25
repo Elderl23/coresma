@@ -15,6 +15,11 @@
                 <span>Dashboard</span>
             </a>
 
+            <a [routerLink]="['/cantos']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                <i class="icon-map"></i>&nbsp;
+                <span>Cantos</span>
+            </a>
+
             <a [routerLink]="['/tipos-esquemas-liturgicos']" [routerLinkActive]="['router-link-active']" class="list-group-item">
                 <i class="icon-map"></i>&nbsp;
                 <span>Tipos Esquemas</span>
@@ -44,6 +49,11 @@
             <span>Dashboard</span>
         </a>
 
+        <a [routerLink]="['/cantos']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="icon-map"></i>&nbsp;
+            <span>Cantos</span>
+        </a>
+
         <a [routerLink]="['/tipos-esquemas-liturgicos']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="icon-map"></i>&nbsp;
             <span>Tipos Esquemas</span>
@@ -68,6 +78,6 @@
 
 </div>
 
-<!-- <div *ngIf="activateLoading" class="Loading">
+<div *ngIf="spinner" class="Loading">
     <div class="loader"></div>
-</div> -->
+</div>
