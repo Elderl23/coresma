@@ -79,6 +79,7 @@ export class component implements OnInit {
         this.consultaCatalogoEsquemasCantos();
         this.typeSubmit = "";
         this.formGroup.controls["titulo"].setValue("");
+        this.formGroup.controls["esquemasCantos"].setValue("");
     }
 
 
