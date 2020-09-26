@@ -2,12 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { CantosService } from '@app/_services';
-import { Cantos, JsonResultadoCantos } from '@app/_models';
+import { CantosService, EsquemasCantosService, TiemposLiturgicosService } from '@app/_services';
+import { Cantos, JsonResultadoCantos,EsquemasCantos, TiemposLiturgicos } from '@app/_models';
 
 @Component({
     selector: 'app-tables', 
     templateUrl: './component.html',
+    styleUrls: ['./css.css']
 })
 export class component implements OnInit {
     public showDialogAlert: Boolean = false;
@@ -17,27 +18,74 @@ export class component implements OnInit {
     public formGroup: FormGroup;
 
     public cantos: Cantos;//Variable que se va a iterar en el template
+    public esquemasCantosObject: EsquemasCantos;//Variable que se va a iterar en el template
+    public tiempoLiturgicos: TiemposLiturgicos;//Variable que se va a iterar en el template
     
 
     constructor(
         private formBuilder: FormBuilder,
         private apiService: CantosService,
+        private apiServiceEsquemaCanto: EsquemasCantosService,
+        private apiServiceTiemposLiturgicos: TiemposLiturgicosService,
         private route:Router
     ) {
         this.formGroup = this.formBuilder.group({
             titulo: ['', Validators.required],
-            tiempoliturgico: [false],
+            descripcion: ['', Validators.required],
+            tiemposLiturgiscos: ['', Validators.required],
+            esquemasCantos: ['', Validators.required],
         });
+
+        
     }
 
     get tituloNoValido() {
         return this.formGroup.get('titulo').invalid && this.formGroup.get('titulo').touched;
     }
 
+    get descripcionNoValido() {
+        return this.formGroup.get('descripcion').invalid && this.formGroup.get('descripcion').touched;
+    }
+
+    get tiempoLiturgicoNoValido() {
+        return this.formGroup.get('tiemposLiturgiscos').invalid && this.formGroup.get('tiemposLiturgiscos').touched;
+    }
+
+    get esquemaCantoNoValido() {
+        return this.formGroup.get('esquemasCantos').invalid && this.formGroup.get('esquemasCantos').touched;
+    }
+
 
     ngOnInit() {
         this.consulta();
     }
+
+    public addItem(item,type): void {
+        this.itemSelected = item;
+        this.typeSubmit = type;
+        if (type === 'editar') {
+            this.formGroup.controls["tiemposLiturgiscos"].setValue("");
+            this.consultaCatalogoEsquemasCantos();
+            this.consultaCatalogoTiemposLiturgicos();
+            this.formGroup.controls["titulo"].setValue(String(this.itemSelected.titulo));
+            this.formGroup.controls["descripcion"].setValue(String(this.itemSelected.descripcion));
+            this.formGroup.controls["esquemasCantos"].setValue(this.itemSelected.esquemasCantos._id);
+            this.formGroup.controls['tiemposLiturgiscos'].setValue(this.itemSelected.tiemposLiturgiscos._id);
+
+            
+        }
+    }
+
+    public cancelTypeSubmit():void{
+        this.consultaCatalogoEsquemasCantos();
+        this.consultaCatalogoTiemposLiturgicos();
+        this.typeSubmit = "";
+        this.formGroup.controls["titulo"].setValue("");
+        this.formGroup.controls["descripcion"].setValue("");
+        this.formGroup.controls["tiemposLiturgiscos"].setValue("");
+        this.formGroup.controls["esquemasCantos"].setValue("");
+    }
+
 
     private consulta():void {
         this.apiService.consulta()
@@ -46,26 +94,18 @@ export class component implements OnInit {
             });
     }
 
-    public addItem(item,type): void {
-        this.itemSelected = item;
-        this.typeSubmit = type;
-        if (type === 'editar') {
-            this.formGroup.controls["titulo"].setValue(String(this.itemSelected.titulo));
-            // this.formGroup.controls["tiempoliturgico"].setValue(this.itemSelected.tiempoliturgico);
-        }
+    private consultaCatalogoEsquemasCantos():void {
+        this.apiServiceEsquemaCanto.consulta()
+            .subscribe(data => {
+                this.esquemasCantosObject = data.jsonResultado;// ----> jsonResultado No se cambia viene la de interfaz de HttpClientInterface
+            });
     }
 
-    public cancelTypeSubmit():void{
-        this.itemSelected = {
-            titulo: "",
-            esquemasCantos:this.itemSelected.esquemasCantos,
-            tiemposLiturgiscos:this.itemSelected.tiemposLiturgiscos,
-            status: false,
-            _id: "",
-        };
-        this.typeSubmit = "";
-        this.formGroup.controls["titulo"].setValue("");
-        // this.formGroup.controls["tiempoliturgico"].setValue(false);
+    private consultaCatalogoTiemposLiturgicos():void {
+        this.apiServiceTiemposLiturgicos.consulta()
+            .subscribe(data => {
+                this.tiempoLiturgicos = data.jsonResultado;// ----> jsonResultado No se cambia viene la de interfaz de HttpClientInterface
+            });
     }
 
 
@@ -117,7 +157,11 @@ export class component implements OnInit {
             .subscribe(
                 data => {
                     this.displayModal = false;
-                    this.consulta();
+                    if (data.codE === 0) {
+                        this.consulta();
+                    }else{
+                        alert(data.msgE)
+                    }
                 },
                 error => {
                     this.displayModal = false;
@@ -125,8 +169,8 @@ export class component implements OnInit {
                 });
     }
 
-    public gotoDetail(id): void {
-        this.route.navigate(['/letra', id]);
+    public gotoDetail(item): void {
+        this.route.navigate(['/letra', item._id], { queryParams: { name: item.titulo} });
     }
 
 

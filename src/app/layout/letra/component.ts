@@ -47,6 +47,10 @@ export class component implements OnInit {
 
 
     ngOnInit() {
+        this.activatedRoute.queryParams.subscribe(params => {
+            this.titulo = params.name;
+          });
+
         this.activatedRoute.params.subscribe(params => {
             const id = params['id'];
             this.paramsId = id;
@@ -59,7 +63,6 @@ export class component implements OnInit {
         this.apiService.consultaLetra(id)
             .subscribe(data => {
                 this.letras = data.jsonResultado;// ----> jsonResultado No se cambia viene la de interfaz de HttpClientInterface
-                this.titulo = this.letras[0].canto.titulo;
             });
     }
 

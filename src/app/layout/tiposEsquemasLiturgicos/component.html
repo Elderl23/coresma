@@ -22,11 +22,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let item of esquemaCantos">
+                            <tr *ngFor="let item of tipoEsquemaCantos">
                                 <td>{{item.titulo}}</td>
                                 <td>
                                     <p *ngFor="let item of item.esquemasCantos">
-                                        <span >
+                                        <span>
                                             {{item.titulo}}
                                         </span>
                                     </p>
@@ -75,19 +75,21 @@
                             <input type="text" class="form-control" formControlName="titulo" [class.is-invalid]="tituloNoValido">
 
                         </div>
-                        <span class="text-error-input-general-form" *ngIf="tituloNoValido"> Este campo es
-                            requerido</span>
+                        <span class="text-error-input-general-form" *ngIf="tituloNoValido"> Este campo es requerido</span>
                     </fieldset>
 
                     <fieldset class="form-group">
                         <label>Ligado a Un tiempo Liturgico?</label>
                         <div class="input-group">
-                            <label class="switch switch-icon switch-pill switch-success">
-                                <input type="checkbox" id="is3dCheckBoxProxy" class="switch-input ng-valid ng-touched ng-dirty" formControlName="tiempoliturgico">
-                                <span class="switch-label" data-off="✘" data-on="✔" name="proxy"></span>
-                                <span class="switch-handle"></span>
-                            </label>
+                            <span class="input-group-addon alignJustifyCenter">
+                                <i class="icon-link icon-formulario"></i>
+                            </span>
+
+                            <select multiple class="form-control" formControlName="esquemasCantos" [class.is-invalid]="esquemasCantosNoValido">
+                                <option *ngFor="let item of esquemasCantosObject" [ngValue]="item._id">{{ item.titulo }}</option>
+                            </select>
                         </div>
+                        <span class="text-error-input-general-form" *ngIf="esquemasCantosNoValido"> Este campo es requerido</span>
                     </fieldset>
 
 
