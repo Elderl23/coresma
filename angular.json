@@ -29,7 +29,8 @@
               "src/styles/botones.css",
               "src/styles/icomoon.css",
               "src/styles/Loading.css",
-              "src/styles/table.css"
+              "src/styles/table.css",
+              "node_modules/angular-notifier/styles.css"
             ],
             "scripts": [
               "src/js/script.js"

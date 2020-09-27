@@ -1,9 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NotifierService } from "angular-notifier";
+ 
 
 import { CantosService, EsquemasCantosService, TiemposLiturgicosService } from '@app/_services';
 import { Cantos, JsonResultadoCantos,EsquemasCantos, TiemposLiturgicos } from '@app/_models';
+
+import { Store } from '@ngrx/store';
+import { StartAction } from '@app/_redux/spinner/actions'
+import { AppState } from '@app/_redux/spinner/interface';
 
 @Component({
     selector: 'app-tables', 
@@ -11,6 +17,8 @@ import { Cantos, JsonResultadoCantos,EsquemasCantos, TiemposLiturgicos } from '@
     styleUrls: ['./css.css']
 })
 export class component implements OnInit {
+    private readonly notifier: NotifierService;
+
     public showDialogAlert: Boolean = false;
     public displayModal: Boolean = false;
     private typeSubmit: String = "";
@@ -27,7 +35,9 @@ export class component implements OnInit {
         private apiService: CantosService,
         private apiServiceEsquemaCanto: EsquemasCantosService,
         private apiServiceTiemposLiturgicos: TiemposLiturgicosService,
-        private route:Router
+        private route:Router,
+        private store: Store<AppState>,
+        notifierService: NotifierService
     ) {
         this.formGroup = this.formBuilder.group({
             titulo: ['', Validators.required],
@@ -36,6 +46,7 @@ export class component implements OnInit {
             esquemasCantos: ['', Validators.required],
         });
 
+        this.notifier = notifierService;
         
     }
 
@@ -57,6 +68,8 @@ export class component implements OnInit {
 
 
     ngOnInit() {
+        const accion = new StartAction();
+        this.store.dispatch(accion);
         this.consulta();
     }
 
@@ -159,8 +172,8 @@ export class component implements OnInit {
                     this.displayModal = false;
                     if (data.codE === 0) {
                         this.consulta();
-                    }else{
-                        alert(data.msgE)
+                    }else{ //info, success, warning, error
+                        this.notifier.notify("warning", data.msgE); 
                     }
                 },
                 error => {
