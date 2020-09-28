@@ -38,7 +38,7 @@ import { AppComponent } from './app.component';
     }),
     AppRoutingModule,
     ReactiveFormsModule,
-    StoreModule.forRoot({spinner:spinnersReducer})
+    StoreModule.forRoot({spinner:spinnersReducer}),
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HeadersInterceptor, multi: true },

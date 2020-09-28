@@ -1,4 +1,6 @@
-<div class="row">
+<app-esquemas-cantos *ngIf="displayDragAndDrop" [receivedParentItem]="itemObj" (messageToEmit)="getMessage($event)"></app-esquemas-cantos>
+
+<div class="row" *ngIf="!displayDragAndDrop">
     <div class="col col-xl-12">
 
         <div class="container-xl">
@@ -32,12 +34,9 @@
                                     </p>
                                 </td>
                                 <td>
-                                    <a class="edit" (click)="displayModal = !displayModal; addItem(item,'editar')"><i
-                                            class="icon-pencil"></i></a>
-                                    &nbsp;
-                                    <a class="delete"
-                                        (click)="showDialogAlert = ! showDialogAlert; addItem(item,'eliminar')"><i
-                                            class="icon-bin"></i></a>
+                                    <a class="edit" (click)="displayModal = !displayModal; addItem(item,'editar')"><i class="icon-pencil"></i></a> &nbsp;
+                                    <a class="verde" (click)="showDragAndDrop(item)"><i class="icon-pencil"></i></a> &nbsp;
+                                    <a class="delete" (click)="showDialogAlert = ! showDialogAlert; addItem(item,'eliminar')"><i class="icon-bin"></i></a>
                                 </td>
                             </tr>
 
@@ -48,7 +47,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 
 </div>
@@ -56,8 +54,7 @@
 <app-dialog [(visible)]="displayModal">
     <div class="modal-content form">
         <div class="modal-header">
-            <button (click)="displayModal = !displayModal;" type="button" class="close" data-dismiss="modal"
-                aria-hidden="true">
+            <button (click)="displayModal = !displayModal;" type="button" class="close" data-dismiss="modal" aria-hidden="true">
                 <span class="icon-cross" aria-hidden="true"></span>
             </button>
             <h4 class="modal-title custom_align" id="Heading">Tiempos Liturgicos</h4>
@@ -112,8 +109,7 @@
 <app-dialog [(visible)]="showDialogAlert">
     <div class="modal-content">
         <div class="modal-header">
-            <button (click)="showDialogAlert = !showDialogAlert;" type="button" class="close" data-dismiss="modal"
-                aria-hidden="true">
+            <button (click)="showDialogAlert = !showDialogAlert;" type="button" class="close" data-dismiss="modal" aria-hidden="true">
                 <span class="icon-cross" aria-hidden="true"></span>
             </button>
             <h4 class="modal-title custom_align" id="Heading">Aviso</h4>
@@ -129,8 +125,7 @@
                         <i class="icon-cross icoBntModal"></i>&nbsp;&nbsp;Cancelar
                     </button>
 
-                    <button (click)="showDialogAlert = !showDialogAlert;confirmarEliminar()" type="submit"
-                        class="btn btn-danger">
+                    <button (click)="showDialogAlert = !showDialogAlert;confirmarEliminar()" type="submit" class="btn btn-danger">
                         <i class="icon-floppy-disk icoBntModal"></i>&nbsp;&nbsp;Aceptar
                     </button>
                 </div>
