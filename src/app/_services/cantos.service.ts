@@ -12,10 +12,7 @@ export class CantosService {
 
     consulta(): Observable<HttpClientInterface>  {
         return this.http.get<HttpClientInterface>(`${environment.apiUrlCoresmaApp}api/cantos/admin/consulta`)
-            .pipe(map(data => {
-                return data;
-            }
-        ));
+            .pipe(map(data => data));
     }
 
     guardar(data): Observable<HttpClientInterface>  {

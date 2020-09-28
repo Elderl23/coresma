@@ -3,6 +3,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms'
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { NotifierModule } from "angular-notifier";
 
 import { StoreModule } from '@ngrx/store';
 import { spinnersReducer } from './_redux/spinner/reducer'
@@ -21,9 +22,23 @@ import { AppComponent } from './app.component';
     BrowserAnimationsModule,
     BrowserModule,
     HttpClientModule,
+    NotifierModule.withConfig({
+      position: {
+        horizontal: {
+            position: "right",
+            distance: 12
+        },
+        vertical: {
+            position: "top",
+            distance: 12,
+            gap: 10
+        }
+    },
+      // Custom options in here
+    }),
     AppRoutingModule,
     ReactiveFormsModule,
-    StoreModule.forRoot({spinner:spinnersReducer})
+    StoreModule.forRoot({spinner:spinnersReducer}),
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HeadersInterceptor, multi: true },

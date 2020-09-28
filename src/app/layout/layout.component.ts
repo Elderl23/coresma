@@ -1,29 +1,32 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ChangeDetectorRef, AfterViewInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '@app/_redux/spinner/interface';
+import { Observable } from 'rxjs';
 
 @Component({
     selector: 'app-layout',
     templateUrl: './layout.component.html',
     styleUrls: ['./layout.component.scss']
 })
-export class LayoutComponent implements OnInit {
+export class LayoutComponent implements AfterViewInit {
 
-    public spinner: boolean = false;
+    public spinner: any;
 
-    constructor(private store: Store<AppState>) { }
+    constructor(
+        private store: Store<AppState>,
+        private cdr: ChangeDetectorRef
+    ) { }
 
-    ngOnInit() { 
+
+
+    ngAfterViewInit() {
         this.store.select('spinner').subscribe(
-            spinner =>{
-                console.log('====================================');
-                console.log(spinner);
-                console.log(typeof(spinner));
-                console.log('====================================');
-                // this.spinner = spinner;
+            spinner => {
+                this.spinner = spinner;
+                this.cdr.detectChanges();
             }
         );
-     }
+    }
 
     openMenuMovil() {
         let overlay = document.getElementsByClassName('mobile_nav_items')[0];

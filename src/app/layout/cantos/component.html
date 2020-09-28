@@ -10,7 +10,7 @@
                         </div>
                         <div class="btn-card">
                             <a class="btn btn-success" (click)="displayModal = !displayModal;cancelTypeSubmit()"><i
-                                    class="icon-plus"></i> <span>Tiempos Liturgicos</span></a>
+                                    class="icon-plus"></i> <span>Canto</span></a>
                         </div>
                     </div>
                     <table class="table table-striped table-hover">
@@ -70,7 +70,7 @@
                 aria-hidden="true">
                 <span class="icon-cross" aria-hidden="true"></span>
             </button>
-            <h4 class="modal-title custom_align" id="Heading">Tiempos Liturgicos</h4>
+            <h4 class="modal-title custom_align" id="Heading">Cantos</h4>
         </div>
         <div class="modal-body">
             <div class="card-block">
@@ -107,9 +107,9 @@
                             <span class="input-group-addon alignJustifyCenter">
                                 <i class="icon-link icon-formulario"></i>
                             </span>
-                            <select class="form-control" formControlName="esquemaCanto" [class.is-invalid]="esquemaCantoNoValido">
+                            <select class="form-control" formControlName="esquemasCantos" [class.is-invalid]="esquemaCantoNoValido">
                                 <option value="" selected>Seleccione</option>
-                                <option *ngFor="let item of tiempoLiturgicos" [value]="item._id">{{ item.titulo }}</option>
+                                <option *ngFor="let item of esquemasCantosObject" [ngValue]="item._id">{{ item.titulo }}</option>
                             </select>
 
                         </div>
@@ -122,9 +122,9 @@
                             <span class="input-group-addon alignJustifyCenter">
                                 <i class="icon-link icon-formulario"></i>
                             </span>
-                            <select class="form-control" formControlName="tiempoLiturgico" [class.is-invalid]="tiempoLiturgicoNoValido">
+                            <select class="form-control" formControlName="tiemposLiturgiscos" [class.is-invalid]="tiempoLiturgicoNoValido">
                                 <option value="" selected>Seleccione</option>
-                                <option *ngFor="let item of esquemasCantos" [value]="item._id">{{ item.titulo }}</option>
+                                <option *ngFor="let item of tiempoLiturgicos" [ngValue]="item._id">{{ item.titulo }}</option>
                             </select>
 
                         </div>

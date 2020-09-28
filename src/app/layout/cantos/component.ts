@@ -1,9 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NotifierService } from "angular-notifier";
+ 
 
 import { CantosService, EsquemasCantosService, TiemposLiturgicosService } from '@app/_services';
 import { Cantos, JsonResultadoCantos,EsquemasCantos, TiemposLiturgicos } from '@app/_models';
+
+import { Store } from '@ngrx/store';
+import { StartAction } from '@app/_redux/spinner/actions'
+import { AppState } from '@app/_redux/spinner/interface';
 
 @Component({
     selector: 'app-tables', 
@@ -11,6 +17,8 @@ import { Cantos, JsonResultadoCantos,EsquemasCantos, TiemposLiturgicos } from '@
     styleUrls: ['./css.css']
 })
 export class component implements OnInit {
+    private readonly notifier: NotifierService;
+
     public showDialogAlert: Boolean = false;
     public displayModal: Boolean = false;
     private typeSubmit: String = "";
@@ -18,7 +26,7 @@ export class component implements OnInit {
     public formGroup: FormGroup;
 
     public cantos: Cantos;//Variable que se va a iterar en el template
-    public esquemasCantos: EsquemasCantos;//Variable que se va a iterar en el template
+    public esquemasCantosObject: EsquemasCantos;//Variable que se va a iterar en el template
     public tiempoLiturgicos: TiemposLiturgicos;//Variable que se va a iterar en el template
     
 
@@ -27,14 +35,19 @@ export class component implements OnInit {
         private apiService: CantosService,
         private apiServiceEsquemaCanto: EsquemasCantosService,
         private apiServiceTiemposLiturgicos: TiemposLiturgicosService,
-        private route:Router
+        private route:Router,
+        private store: Store<AppState>,
+        notifierService: NotifierService
     ) {
         this.formGroup = this.formBuilder.group({
             titulo: ['', Validators.required],
             descripcion: ['', Validators.required],
-            tiempoLiturgico: ['', Validators.required],
-            esquemaCanto: ['', Validators.required],
+            tiemposLiturgiscos: ['', Validators.required],
+            esquemasCantos: ['', Validators.required],
         });
+
+        this.notifier = notifierService;
+        
     }
 
     get tituloNoValido() {
@@ -46,15 +59,17 @@ export class component implements OnInit {
     }
 
     get tiempoLiturgicoNoValido() {
-        return this.formGroup.get('tiempoLiturgico').invalid && this.formGroup.get('tiempoLiturgico').touched;
+        return this.formGroup.get('tiemposLiturgiscos').invalid && this.formGroup.get('tiemposLiturgiscos').touched;
     }
 
     get esquemaCantoNoValido() {
-        return this.formGroup.get('esquemaCanto').invalid && this.formGroup.get('esquemaCanto').touched;
+        return this.formGroup.get('esquemasCantos').invalid && this.formGroup.get('esquemasCantos').touched;
     }
 
 
     ngOnInit() {
+        const accion = new StartAction();
+        this.store.dispatch(accion);
         this.consulta();
     }
 
@@ -62,14 +77,14 @@ export class component implements OnInit {
         this.itemSelected = item;
         this.typeSubmit = type;
         if (type === 'editar') {
+            this.formGroup.controls["tiemposLiturgiscos"].setValue("");
             this.consultaCatalogoEsquemasCantos();
             this.consultaCatalogoTiemposLiturgicos();
             this.formGroup.controls["titulo"].setValue(String(this.itemSelected.titulo));
             this.formGroup.controls["descripcion"].setValue(String(this.itemSelected.descripcion));
-            this.formGroup.controls["tiempoLiturgico"].setValue(String(this.itemSelected.tiemposLiturgiscos._id));
-            this.formGroup.controls["esquemaCanto"].setValue(String(this.itemSelected.esquemasCantos._id));
+            this.formGroup.controls["esquemasCantos"].setValue(this.itemSelected.esquemasCantos._id);
+            this.formGroup.controls['tiemposLiturgiscos'].setValue(this.itemSelected.tiemposLiturgiscos._id);
 
-            console.log(this.formGroup);
             
         }
     }
@@ -80,8 +95,8 @@ export class component implements OnInit {
         this.typeSubmit = "";
         this.formGroup.controls["titulo"].setValue("");
         this.formGroup.controls["descripcion"].setValue("");
-        this.formGroup.controls["tiempoLiturgico"].setValue("");
-        this.formGroup.controls["esquemaCanto"].setValue("");
+        this.formGroup.controls["tiemposLiturgiscos"].setValue("");
+        this.formGroup.controls["esquemasCantos"].setValue("");
     }
 
 
@@ -95,7 +110,7 @@ export class component implements OnInit {
     private consultaCatalogoEsquemasCantos():void {
         this.apiServiceEsquemaCanto.consulta()
             .subscribe(data => {
-                this.esquemasCantos = data.jsonResultado;// ----> jsonResultado No se cambia viene la de interfaz de HttpClientInterface
+                this.esquemasCantosObject = data.jsonResultado;// ----> jsonResultado No se cambia viene la de interfaz de HttpClientInterface
             });
     }
 
@@ -157,8 +172,8 @@ export class component implements OnInit {
                     this.displayModal = false;
                     if (data.codE === 0) {
                         this.consulta();
-                    }else{
-                        alert(data.msgE)
+                    }else{ //info, success, warning, error
+                        this.notifier.notify("warning", data.msgE); 
                     }
                 },
                 error => {
