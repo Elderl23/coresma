@@ -57,6 +57,6 @@ deploy_staging:
         - sshpass -V
         - export SSHPASS=$vps_key
         - sshpass -e scp -o stricthostkeychecking=no -r $(pwd)/docker/django.conf $(pwd)/docker/docker-compose.yml $(pwd)/docker/Dockerfile $(pwd)/dist/ root@157.245.221.220:/var/apps/docker/angular/coresmaAdmin
-        - sshpass ssh -o StrictHostKeyChecking=no root@157.245.221.220 'cd ../var/apps/docker/angular/coresmaAdmin && docker-compose up --build -d && docker images && docker ps -a'
+        - sshpass -e ssh -o StrictHostKeyChecking=no -r root@157.245.221.220 'cd ../var/apps/docker/angular/coresmaAdmin && docker-compose up --build -d && docker images && docker ps -a'
     only:
         - master
