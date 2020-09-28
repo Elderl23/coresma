@@ -3,7 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false,
+  production: true,
   apiUrl: 'http://localhost:9000/',
   apiUrlCoresmaApp:'http://localhost:3021/',
   keyToken: 'JDNDUjNUX3A0JCR3MHJkXw=='
