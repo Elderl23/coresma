@@ -1,7 +1,6 @@
 version: "2"
 services:
   nginx:
-    # image: nginx
     build:
       context: .
     environment:
