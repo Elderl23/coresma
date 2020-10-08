@@ -14,6 +14,7 @@ const routes: Routes = [
             { path: 'tipos-esquemas-liturgicos', loadChildren: () => import('./tiposEsquemasLiturgicos/module').then(m => m.Module) },
             { path: 'cantos', loadChildren: () => import('./cantos/module').then(m => m.Module) },
             { path: 'letra/:id', loadChildren: () => import('./letra/module').then(m => m.Module) },
+            { path: 'users', loadChildren: () => import('./users/module').then(m => m.Module) },
 
 
         ]

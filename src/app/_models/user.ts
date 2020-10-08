@@ -1,8 +1,10 @@
 export class User {
-    id: number;
-    username: string;
-    password: string;
-    firstName: string;
-    lastName: string;
-    authdata?: string;
+    email: string;
+    password:string
+}
+
+export class Notificacion {
+    id: string;
+    fecha?:number;
+    nombre?:string
 }
