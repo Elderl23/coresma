@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { AuthenticationService } from '@app/_services';
+import { AngularFireAuth } from 'angularfire2/auth';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -13,11 +15,30 @@ export class LoginComponent implements OnInit {
     public router: Router,
     private formBuilder: FormBuilder,
     private authenticationService: AuthenticationService,
+    private afAuth: AngularFireAuth,
+    private ngZone: NgZone
   ) {
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.required],
       password: ['', Validators.required]
     });
+
+    this.afAuth.auth.onAuthStateChanged((user) => {
+      console.log(user);
+      
+      if (user) {
+        console.log("ok1");
+        sessionStorage.setItem('token', user.xa)
+        this.ngZone.run(() => {
+          console.log("ok1");
+          
+          this.router.navigate(['/dashboard']);
+        })
+        // this.router.navigate(['/dashboard'])
+      }
+    });
+
+
   }
 
   get userNameNoValido(){
@@ -28,22 +49,37 @@ export class LoginComponent implements OnInit {
     return this.loginForm.get('password').invalid && this.loginForm.get('password').touched;
  }
 
+
+ public ingresar(type): void {
+  this.authenticationService.loginSocial(type);
+}
+
+public refreshToken(type): void {
+  this.authenticationService.refreshToken();
+}
+
   onSubmit() {
     if (!this.loginForm.invalid) {
-      this.authenticationService.login(this.loginForm.value)
+      this.loginForm.value.email = this.loginForm.value.username
+      this.authenticationService.signIn(this.loginForm.value)
         .subscribe(
           data => {
-            let token = data.token;
-            sessionStorage.setItem('token', token)
-            this.authenticationService.arbolPermisos()
-              .subscribe(
-                data => {
-                  this.router.navigate(['/dashboard'])
-                },
-                error => {
-                  console.log(error);
-                  // sessionStorage.removeItem('token');
-                });
+
+            console.log("Ok");
+            this.router.navigate(['/dashboard'])
+            
+
+            // let token = data.token;
+            // sessionStorage.setItem('token', token)
+            // this.authenticationService.arbolPermisos()
+            //   .subscribe(
+            //     data => {
+            //       this.router.navigate(['/dashboard'])
+            //     },
+            //     error => {
+            //       console.log(error);
+            //       // sessionStorage.removeItem('token');
+            //     });
           },
           error => {
             console.log(error);

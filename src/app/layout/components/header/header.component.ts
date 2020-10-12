@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,NgZone } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
+import { AuthenticationService } from '@app/_services';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 @Component({
     selector: 'app-header',
@@ -9,7 +11,12 @@ import { Router, NavigationEnd } from '@angular/router';
 export class HeaderComponent implements OnInit {
     public pushRightClass: string;
 
-    constructor(public router: Router) {
+    constructor(
+        public router: Router,
+        private authenticationService: AuthenticationService,
+        private afAuth: AngularFireAuth,
+        private ngZone: NgZone
+        ) {
 
         this.router.events.subscribe(val => {
             if (
@@ -20,6 +27,26 @@ export class HeaderComponent implements OnInit {
                 this.toggleSidebar();
             }
         });
+
+        this.afAuth.auth.onAuthStateChanged((user) => {
+            console.log(user);
+            
+            if (!user) {
+              console.log("ok1");
+              sessionStorage.setItem('token', '')
+              this.ngZone.run(() => {
+                console.log("ok1");
+                
+                this.router.navigate(['/login']);
+              })
+              // this.router.navigate(['/dashboard'])
+            }
+          });
+
+    }
+
+    logout() {
+        this.authenticationService.logout()
     }
 
     ngOnInit() {

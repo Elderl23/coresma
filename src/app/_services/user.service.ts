@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 
+
+
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { Observable } from 'rxjs';
 
@@ -16,10 +18,12 @@ export class UserService {
 
     constructor(
         private http: HttpClient,
-        private afs: AngularFirestore) {
+        private afs: AngularFirestore,
+        
+        ) {
 
     }
-
+    
     cargarNotificacion(){
         this.itemsCollection = this.afs.collection<Notificacion>('notificacion', ref => ref.orderBy('fecha','desc'));
         return this.itemsCollection.valueChanges()
