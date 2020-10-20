@@ -19,29 +19,13 @@ export class AuthenticationService {
         private http: HttpClient,
         private router: Router,
         private afAuth: AngularFireAuth
-    ) {
-        // this.afAuth.authState.subscribe(user => {
-        //     console.log("User", user);
-
-        //     if (!user) {
-        //         sessionStorage.setItem('token', "")
-        //         this.router.navigate(['/login'])
-        //         return;
-        //     }
-
-        //     this.usuario.nombre = user.displayName;
-        //     this.usuario.uid = user.uid;
-
-        //     this.router.navigate(['/dashboard'])
-
-        // });
-
-    }
+    ) {}
 
     signIn(data) {
         let keyFirebase = 'AIzaSyCbNLXEcfVeQjbVnpelMJbQKTUVzXKOg9Q';
         return this.http.post<User>(`${environment.apiUrlFirebase}signInWithPassword?key=${keyFirebase}`, data)
             .pipe(map(data => {
+                console.log(data);
                 return data;
             }
             ));
@@ -78,6 +62,8 @@ export class AuthenticationService {
 
     refreshToken() {
         this.afAuth.auth.currentUser.getIdToken(true).then(function(token) {
+            console.log(token);
+            
             sessionStorage.setItem('token', token)
           }).catch(function(error) {
             if (error) throw error

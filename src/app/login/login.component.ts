@@ -23,8 +23,8 @@ export class LoginComponent implements OnInit {
       password: ['', Validators.required]
     });
 
-    this.afAuth.auth.onAuthStateChanged((user) => {
-      console.log(user);
+    this.afAuth.auth.onAuthStateChanged((user:any) => {
+      console.log("onAuthStateChanged");
       
       if (user) {
         console.log("ok1");
@@ -34,7 +34,6 @@ export class LoginComponent implements OnInit {
           
           this.router.navigate(['/dashboard']);
         })
-        // this.router.navigate(['/dashboard'])
       }
     });
 
@@ -60,13 +59,18 @@ public refreshToken(type): void {
 
   onSubmit() {
     if (!this.loginForm.invalid) {
-      this.loginForm.value.email = this.loginForm.value.username
+      this.loginForm.value.email = this.loginForm.value.username;
+      this.loginForm.value.returnSecureToken = true;
       this.authenticationService.signIn(this.loginForm.value)
         .subscribe(
-          data => {
+          (data:any) => {
+            sessionStorage.setItem('token', data.idToken)
+            this.ngZone.run(() => {
+              this.router.navigate(['/dashboard']);
+            })
 
-            console.log("Ok");
-            this.router.navigate(['/dashboard'])
+            // console.log("Ok");
+            // this.router.navigate(['/dashboard'])
             
 
             // let token = data.token;

@@ -10,7 +10,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 })
 export class HeaderComponent implements OnInit {
     public pushRightClass: string;
-
+    private activateLogout: boolean = false;
     constructor(
         public router: Router,
         private authenticationService: AuthenticationService,
@@ -29,17 +29,14 @@ export class HeaderComponent implements OnInit {
         });
 
         this.afAuth.auth.onAuthStateChanged((user) => {
-            console.log(user);
-            
             if (!user) {
-              console.log("ok1");
+              console.log("logout");
               sessionStorage.setItem('token', '')
-              this.ngZone.run(() => {
-                console.log("ok1");
+            //   this.ngZone.run(() => {
+            //     console.log("logout");
                 
-                this.router.navigate(['/login']);
-              })
-              // this.router.navigate(['/dashboard'])
+                
+            //   })
             }
           });
 
@@ -47,6 +44,7 @@ export class HeaderComponent implements OnInit {
 
     logout() {
         this.authenticationService.logout()
+        this.router.navigate(['/login']);
     }
 
     ngOnInit() {

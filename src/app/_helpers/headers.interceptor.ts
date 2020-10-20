@@ -21,7 +21,7 @@ export class HeadersInterceptor implements HttpInterceptor {
         let ContentType = 'application/json; charset=utf-8';
 
         if(sessionStorage.getItem('token') !== null){
-            authorization = 'JWT '+ sessionStorage.getItem('token'); 
+            authorization = 'Bearer '+ sessionStorage.getItem('token'); 
         }
 
             request = request.clone({
