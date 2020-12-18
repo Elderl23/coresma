@@ -1,26 +1,27 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { FormGroup, Validators, FormBuilder, FormArray } from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 
 import { CantosService } from '@app/_services';
 import { Letras, JsonResultadoLetras } from '@app/_models';
 
 @Component({
-    selector: 'app-tables', 
+    selector: 'app-tables',
     templateUrl: './component.html',
     styleUrls: ['./css.css']
 })
 export class component implements OnInit {
     public showDialogAlert: Boolean = false;
     public displayModal: Boolean = false;
-    private typeSubmit: String = "";
+    private typeSubmit: String = "guardar";
     private itemSelected: JsonResultadoLetras;
     public formGroup: FormGroup;
+    public formGroupArray: FormGroup;
     private paramsId: string = "";
 
     public letras: Letras;//Variable que se va a iterar en el template
     public titulo: string = "";//Variable que se va a iterar en el template
-    
+
 
     constructor(
         private formBuilder: FormBuilder,
@@ -33,6 +34,23 @@ export class component implements OnInit {
             etiqueta: ['', Validators.required],
             estilo: ['', Validators.required],
         });
+
+        this.formGroupArray= this.formBuilder.group({
+          canto: ['', Validators.required],
+          letras: this.formBuilder.array([this.formBuilder.group({letra: [''],etiqueta:[''],estilo:[''],id:['']})])
+      });
+
+    }
+
+    get getLetras(){
+      return this.formGroupArray.get('letras') as FormArray;
+    }
+
+    public agregarinput(){
+      const control = <FormArray>this.formGroupArray.controls['letras'];
+      control.push(this.formBuilder.group({letra:[],etiqueta:[],estilo:[],id:[]}));
+
+      console.log(this.formGroupArray.controls);
     }
 
     get textoNoValido() {
@@ -47,6 +65,7 @@ export class component implements OnInit {
 
 
     ngOnInit() {
+
         this.activatedRoute.queryParams.subscribe(params => {
             this.titulo = params.name;
           });
@@ -54,14 +73,30 @@ export class component implements OnInit {
         this.activatedRoute.params.subscribe(params => {
             const id = params['id'];
             this.paramsId = id;
+            this.formGroupArray.controls["canto"].setValue(this.paramsId);
             this.formGroup.controls["canto"].setValue(this.paramsId);
             this.consulta(id);
       });
     }
 
     private consulta(id):void {
+      let self = this;
         this.apiService.consultaLetra(id)
             .subscribe(data => {
+              if (data.jsonResultado.length > 0) {
+                this.typeSubmit = "editar";
+              }
+
+              console.log(this.typeSubmit);
+
+
+              const control = <FormArray>self.formGroupArray.controls['letras'];
+              data.jsonResultado.forEach( function(valor) {
+                console.log(valor);
+
+                control.push(self.formBuilder.group({letra:[valor.texto],etiqueta:[valor.etiqueta],estilo:[valor.estilo],id:[valor._id]}));
+            });
+
                 this.letras = data.jsonResultado;// ----> jsonResultado No se cambia viene la de interfaz de HttpClientInterface
             });
     }
@@ -73,7 +108,7 @@ export class component implements OnInit {
             this.formGroup.controls["texto"].setValue(String(this.itemSelected.texto));
             this.formGroup.controls["etiqueta"].setValue(String(this.itemSelected.etiqueta));
             this.formGroup.controls["estilo"].setValue(String(this.itemSelected.estilo));
-        
+
         }
     }
 
@@ -93,9 +128,11 @@ export class component implements OnInit {
 
 
     public guardar(): void {
-        if (!this.formGroup.invalid) {
+
+        if (!this.formGroupArray.invalid) {
             if (this.typeSubmit !== "editar") {
-                this.apiService.guardarLetra(this.formGroup.value)
+              this.formGroupArray.value.letras.shift()
+                this.apiService.guardarLetra(this.formGroupArray.value)
                 .subscribe(
                     data => {
                         this.displayModal = false;
@@ -107,8 +144,8 @@ export class component implements OnInit {
                         this.cancelTypeSubmit();
                     });
             } else {
-
-                this.apiService.editarLetra(this.formGroup.value,this.itemSelected._id)
+              this.formGroupArray.value.letras.shift()
+                this.apiService.editarLetra(this.formGroupArray.value,this.formGroupArray.value.canto)
                 .subscribe(
                     data => {
                         this.displayModal = false;
@@ -119,9 +156,9 @@ export class component implements OnInit {
                         this.displayModal = false;
                         this.cancelTypeSubmit();
                     });
-                
+
             }
-            
+
 
         } else {
             return Object.values(this.formGroup.controls).forEach(control => {
