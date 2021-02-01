@@ -5,12 +5,15 @@ import {ActivatedRoute} from '@angular/router';
 import { CantosService } from '@app/_services';
 import { Letras, JsonResultadoLetras } from '@app/_models';
 
+import { NotifierService } from "angular-notifier";
+
 @Component({
     selector: 'app-tables',
     templateUrl: './component.html',
     styleUrls: ['./css.css']
 })
 export class component implements OnInit {
+    private readonly notifier: NotifierService;
     public showDialogAlert: Boolean = false;
     public displayModal: Boolean = false;
     private typeSubmit: String = "guardar";
@@ -26,7 +29,8 @@ export class component implements OnInit {
     constructor(
         private formBuilder: FormBuilder,
         private apiService: CantosService,
-        private activatedRoute: ActivatedRoute
+        private activatedRoute: ActivatedRoute,
+        notifierService: NotifierService
     ) {
         this.formGroup = this.formBuilder.group({
             canto: ['', Validators.required],
@@ -39,6 +43,8 @@ export class component implements OnInit {
           canto: ['', Validators.required],
           letras: this.formBuilder.array([this.formBuilder.group({letra: [''],etiqueta:[''],estilo:[''],id:['']})])
       });
+
+      this.notifier = notifierService;
 
     }
 
@@ -141,7 +147,6 @@ export class component implements OnInit {
 
         if (!this.formGroupArray.invalid) {
             if (this.typeSubmit !== "editar") {
-              this.formGroupArray.value.letras.shift()
               console.log(this.formGroupArray.value);
               
                 this.apiService.guardarLetra(this.formGroupArray.value)
@@ -150,6 +155,7 @@ export class component implements OnInit {
                         this.displayModal = false;
                         this.cancelTypeSubmit();
                         this.consulta(this.paramsId);
+                        this.notifier.notify("success", 'Guardado Correctamente');
                     },
                     error => {
                         this.displayModal = false;
@@ -163,6 +169,7 @@ export class component implements OnInit {
                         this.displayModal = false;
                         this.cancelTypeSubmit();
                         this.consulta(this.paramsId);
+                        this.notifier.notify("success", 'Guardado Correctamente');
                     },
                     error => {
                         this.displayModal = false;

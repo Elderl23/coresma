@@ -131,6 +131,7 @@ export class component implements OnInit {
                         this.displayModal = false;
                         this.cancelTypeSubmit();
                         this.consulta();
+                        this.notifier.notify("success", 'Guardado Correctamente');
                     },
                     error => {
                         this.displayModal = false;
@@ -144,6 +145,7 @@ export class component implements OnInit {
                         this.displayModal = false;
                         this.cancelTypeSubmit();
                         this.consulta();
+                        this.notifier.notify("success", 'Actualizado Correctamente');
                     },
                     error => {
                         this.displayModal = false;
