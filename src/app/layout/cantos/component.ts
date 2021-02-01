@@ -68,8 +68,8 @@ export class component implements OnInit {
 
 
     ngOnInit() {
-        const accion = new StartAction();
-        this.store.dispatch(accion);
+        // const accion = new StartAction();
+        // this.store.dispatch(accion);
         this.consulta();
     }
 

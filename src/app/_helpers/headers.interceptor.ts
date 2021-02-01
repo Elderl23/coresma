@@ -2,12 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-
+import { Store } from '@ngrx/store';
+import { AppState } from '@app/_redux/spinner/interface';
+import { StartAction } from '@app/_redux/spinner/actions'
 
 
 @Injectable()
 export class HeadersInterceptor implements HttpInterceptor {
-    constructor() {
+    constructor(private store: Store<AppState>) {
 
         
     }
@@ -23,6 +25,9 @@ export class HeadersInterceptor implements HttpInterceptor {
         if(sessionStorage.getItem('token') !== null){
             authorization = 'Bearer '+ sessionStorage.getItem('token'); 
         }
+
+        const accion = new StartAction();
+        this.store.dispatch(accion);
 
             request = request.clone({
                 setHeaders: {

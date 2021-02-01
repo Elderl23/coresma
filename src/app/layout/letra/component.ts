@@ -46,9 +46,21 @@ export class component implements OnInit {
       return this.formGroupArray.get('letras') as FormArray;
     }
 
+    public eliminarinput(){
+        const control = <FormArray>this.formGroupArray.controls['letras'];
+
+        
+        let idDelete = control.value[control.length - 1].id;
+        if (idDelete !== null) {
+            this.eliminar(idDelete, control);  
+        }else{
+            control.removeAt(control.length - 1)
+        }
+      }
+
     public agregarinput(){
       const control = <FormArray>this.formGroupArray.controls['letras'];
-      control.push(this.formBuilder.group({letra:[],etiqueta:[],estilo:[],id:[]}));
+      control.push(this.formBuilder.group({letra:[],etiqueta:['Text/Acorde'],estilo:['item/br'],id:[]}));
 
       console.log(this.formGroupArray.controls);
     }
@@ -87,13 +99,11 @@ export class component implements OnInit {
                 this.typeSubmit = "editar";
               }
 
-              console.log(this.typeSubmit);
-
-
               const control = <FormArray>self.formGroupArray.controls['letras'];
-              data.jsonResultado.forEach( function(valor) {
-                console.log(valor);
+              control.clear()
+            //   self.formGroupArray.reset();//Borrarmos los datos del control
 
+              data.jsonResultado.forEach( function(valor) {
                 control.push(self.formBuilder.group({letra:[valor.texto],etiqueta:[valor.etiqueta],estilo:[valor.estilo],id:[valor._id]}));
             });
 
@@ -132,6 +142,8 @@ export class component implements OnInit {
         if (!this.formGroupArray.invalid) {
             if (this.typeSubmit !== "editar") {
               this.formGroupArray.value.letras.shift()
+              console.log(this.formGroupArray.value);
+              
                 this.apiService.guardarLetra(this.formGroupArray.value)
                 .subscribe(
                     data => {
@@ -169,10 +181,10 @@ export class component implements OnInit {
     }
 
     public confirmarEliminar(): void {
-        this.eliminar(this.itemSelected._id)
+        // this.eliminar(this.itemSelected._id)
     }
 
-    public eliminar(id): void {
+    public eliminar(id, control): void {
         this.apiService.eliminarLetra(id)
             .subscribe(
                 data => {

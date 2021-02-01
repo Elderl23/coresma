@@ -18,3 +18,15 @@ table.table tr th:first-child {
 .input-estilo {
     width: 25%;
 }
+
+.botonesAccion{
+    display: flex;
+    justify-content: flex-start;
+    margin: 10px 0px;
+}
+
+.botonGuardar{
+    display: flex;
+    justify-content: flex-end;
+    margin: 10px 0px;
+}

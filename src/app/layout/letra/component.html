@@ -50,12 +50,19 @@
 
                             </div>
 
-                            <a (click)="agregarinput()">agregar</a>
+                            
 
                         </div>
-                        <button type="submit" class="btn btn-success">
-                          <i class="icon-floppy-disk icoBntModal"></i>&nbsp;&nbsp;Guardar
-                      </button>
+                        <div class="botonesAccion">
+                            <a class="btn btn-danger" (click)="eliminarinput()"><i class="icon-plus"></i> <span>Eliminar</span></a>
+                            <a class="btn btn-success" (click)="agregarinput()"><i class="icon-plus"></i> <span>Agregar</span></a>
+                        </div>
+                        <div class="botonGuardar">
+                            <button type="submit" class="btn btn-success">
+                                <i class="icon-floppy-disk icoBntModal"></i>&nbsp;&nbsp;Guardar
+                            </button>
+                        </div>
+                       
                     </form>
 
                 </div>
