@@ -29,6 +29,7 @@ export class component implements OnInit {
     public esquemasCantosObject: EsquemasCantos;//Variable que se va a iterar en el template
     public tiempoLiturgicos: TiemposLiturgicos;//Variable que se va a iterar en el template
 
+    public btnRegresar: boolean = false;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -74,6 +75,7 @@ export class component implements OnInit {
                 this.consulta();
             } else {
                 this.consultaCantosXTiempoLiturgico(params.id);
+                this.btnRegresar = true;
             }
           });
     }
@@ -201,7 +203,7 @@ export class component implements OnInit {
     }
 
     public gotoDetail(item): void {
-        this.route.navigate(['/letra', item._id], { queryParams: { name: item.titulo} });
+        this.route.navigate(['/letra', item._id], { queryParams: { name: item.titulo, idTiempo:item.tiemposLiturgiscos._id,tiempo:this.btnRegresar} });
     }
 
 

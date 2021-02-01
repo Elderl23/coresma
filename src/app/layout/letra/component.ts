@@ -22,6 +22,8 @@ export class component implements OnInit {
     public formGroupArray: FormGroup;
     private paramsId: string = "";
 
+    public urlRedirec:string = '';
+
     public letras: Letras;//Variable que se va a iterar en el template
     public titulo: string = "";//Variable que se va a iterar en el template
 
@@ -85,7 +87,13 @@ export class component implements OnInit {
     ngOnInit() {
 
         this.activatedRoute.queryParams.subscribe(params => {
-            this.titulo = params.name;
+            console.log(params);
+
+            if (params.tiempo === 'true') {
+                this.urlRedirec = '/cantos' + '/' +params.idTiempo;
+            } else {
+                this.urlRedirec = '/cantos';
+            }
           });
 
         this.activatedRoute.params.subscribe(params => {
