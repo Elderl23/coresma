@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { NotifierService } from "angular-notifier";
 
 
@@ -37,7 +37,8 @@ export class component implements OnInit {
         private apiServiceTiemposLiturgicos: TiemposLiturgicosService,
         private route:Router,
         private store: Store<AppState>,
-        notifierService: NotifierService
+        notifierService: NotifierService,
+        private activatedRoute: ActivatedRoute,
     ) {
         this.formGroup = this.formBuilder.group({
             titulo: ['', Validators.required],
@@ -68,9 +69,13 @@ export class component implements OnInit {
 
 
     ngOnInit() {
-        // const accion = new StartAction();
-        // this.store.dispatch(accion);
-        this.consulta();
+        this.activatedRoute.params.subscribe(params => {
+            if (params.id === undefined ) {
+                this.consulta();
+            } else {
+                this.consultaCantosXTiempoLiturgico(params.id);
+            }
+          });
     }
 
     public addItem(item,type): void {
@@ -104,7 +109,18 @@ export class component implements OnInit {
         this.apiService.consulta()
             .subscribe(data => {
                 this.cantos = data.jsonResultado;// ----> jsonResultado No se cambia viene la de interfaz de HttpClientInterface
+                console.log(this.cantos);
+                
             });
+    }
+
+    private consultaCantosXTiempoLiturgico(idTiempoLiturgico):void{
+        this.apiService.consultaIdTiempoLiturgico(idTiempoLiturgico)
+            .subscribe(data => {
+                this.cantos = data.jsonResultado;// ----> jsonResultado No se cambia viene la de interfaz de HttpClientInterface
+                console.log(this.cantos);
+            });
+        // 
     }
 
     private consultaCatalogoEsquemasCantos():void {

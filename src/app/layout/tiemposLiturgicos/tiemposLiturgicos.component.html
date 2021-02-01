@@ -18,6 +18,7 @@
                                 <th>Título</th>
                                 <th>Descripción</th>
                                 <th>Url imagen</th>
+                                <th>Cantos</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -26,6 +27,7 @@
                                 <td>{{item.titulo}}</td>
                                 <td>{{item.descripcion}}</td>
                                 <td>{{item.urlimagen}}</td>
+                                <td><a  routerLink="/cantos/{{item._id}}" class="verde"><i class="icon-file-text"></i></a></td>
                                 <td>
                                     <a class="edit" (click)="displayModal = !displayModal; addItem(item,'editar')"><i class="icon-pencil"></i></a>
                                     &nbsp;
