@@ -154,8 +154,9 @@ export class component implements OnInit {
     public guardar(): void {
 
         if (!this.formGroupArray.invalid) {
+            console.log(this.formGroupArray.value.letras);
+
             if (this.typeSubmit !== "editar") {
-              console.log(this.formGroupArray.value);
               
                 this.apiService.guardarLetra(this.formGroupArray.value)
                 .subscribe(
