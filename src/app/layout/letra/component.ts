@@ -171,7 +171,7 @@ export class component implements OnInit {
                         this.cancelTypeSubmit();
                     });
             } else {
-              this.formGroupArray.value.letras.shift()
+            //   this.formGroupArray.value.letras.shift()
                 this.apiService.editarLetra(this.formGroupArray.value,this.formGroupArray.value.canto)
                 .subscribe(
                     data => {
