@@ -19,6 +19,10 @@ export class CantosService {
         return this.http.get<HttpClientInterface>(`${environment.apiUrlCoresmaApp}api/cantos/consulta/${idTiempoLiturgico}`)
             .pipe(map(data => data));
     }
+    consultaIdEsquemasCantos(idEsquemasCantos): Observable<HttpClientInterface>  {
+        return this.http.get<HttpClientInterface>(`${environment.apiUrlCoresmaApp}api/cantos/consulta/esquemas/cantos/${idEsquemasCantos}`)
+            .pipe(map(data => data));
+    }
 
     guardar(data): Observable<HttpClientInterface>  {
         return this.http.post<HttpClientInterface>(`${environment.apiUrlCoresmaApp}api/cantos/admin/agregar`, data)

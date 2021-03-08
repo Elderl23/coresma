@@ -90,8 +90,10 @@ export class component implements OnInit {
             console.log(params);
 
             if (params.tiempo === 'true') {
-                this.urlRedirec = '/cantos' + '/' +params.idTiempo;
-            } else {
+                this.urlRedirec = '/cantos' + '/' +params.idTiempo + '/1';
+            } else if (params.escant === 'true') {
+                this.urlRedirec = '/cantos' + '/' +params.idTiempo+ '/2';
+            }else {
                 this.urlRedirec = '/cantos';
             }
           });

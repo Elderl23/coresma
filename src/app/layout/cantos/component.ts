@@ -30,6 +30,7 @@ export class component implements OnInit {
     public tiempoLiturgicos: TiemposLiturgicos;//Variable que se va a iterar en el template
 
     public btnRegresar: boolean = false;
+    public btnRegresarEC: boolean = false;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -74,8 +75,18 @@ export class component implements OnInit {
             if (params.id === undefined ) {
                 this.consulta();
             } else {
-                this.consultaCantosXTiempoLiturgico(params.id);
-                this.btnRegresar = true;
+                if (params.id2 === '1') {
+                    this.consultaCantosXTiempoLiturgico(params.id);
+                    this.btnRegresar = true;
+                    this.btnRegresarEC = false;
+                } else {
+                    this.consultaCantosXEsquemasCantos(params.id);
+                    this.btnRegresarEC = true;
+                    this.btnRegresar = false;
+                }
+                
+                
+                
             }
           });
     }
@@ -118,6 +129,15 @@ export class component implements OnInit {
 
     private consultaCantosXTiempoLiturgico(idTiempoLiturgico):void{
         this.apiService.consultaIdTiempoLiturgico(idTiempoLiturgico)
+            .subscribe(data => {
+                this.cantos = data.jsonResultado;// ----> jsonResultado No se cambia viene la de interfaz de HttpClientInterface
+                console.log(this.cantos);
+            });
+        // 
+    }
+
+    private consultaCantosXEsquemasCantos(idEsquemasCantos):void{
+        this.apiService.consultaIdEsquemasCantos(idEsquemasCantos)
             .subscribe(data => {
                 this.cantos = data.jsonResultado;// ----> jsonResultado No se cambia viene la de interfaz de HttpClientInterface
                 console.log(this.cantos);
@@ -203,7 +223,7 @@ export class component implements OnInit {
     }
 
     public gotoDetail(item): void {
-        this.route.navigate(['/letra', item._id], { queryParams: { name: item.titulo, idTiempo:item.tiemposLiturgiscos._id,tiempo:this.btnRegresar} });
+        this.route.navigate(['/letra', item._id], { queryParams: { name: item.titulo, idTiempo:item.tiemposLiturgiscos._id,tiempo:this.btnRegresar, escant:this.btnRegresarEC} });
     }
 
 

@@ -6,7 +6,7 @@
 export const environment = {
   production: true,
   apiUrl: 'http://localhost:9000/',
-  apiUrlCoresmaApp:'https://coresma.devder.com/',
+  apiUrlCoresmaApp:'http://localhost:3021/',
   apiUrlFirebase:'https://identitytoolkit.googleapis.com/v1/accounts:',
   firebase : {
     apiKey: "AIzaSyCbNLXEcfVeQjbVnpelMJbQKTUVzXKOg9Q",
