@@ -17,7 +17,6 @@ export class EsquemasCantosComponent implements OnInit {
 
     public esquemaCantos: EsquemasCantos;//Variable que se va a iterar en el template
     
-
     constructor(
         private formBuilder: FormBuilder,
         private apiService: EsquemasCantosService,
@@ -25,6 +24,7 @@ export class EsquemasCantosComponent implements OnInit {
         this.formGroup = this.formBuilder.group({
             titulo: ['', Validators.required],
             tiempoliturgico: [false],
+            esquemasCantos: ['', ],
         });
     }
 
@@ -46,20 +46,19 @@ export class EsquemasCantosComponent implements OnInit {
 
     public addItem(item,type): void {
         this.itemSelected = item;
+        console.log(this.itemSelected);
+        
         this.typeSubmit = type;
         if (type === 'editar') {
             this.formGroup.controls["titulo"].setValue(String(this.itemSelected.titulo));
             this.formGroup.controls["tiempoliturgico"].setValue(this.itemSelected.tiempoliturgico);
+            this.formGroup.controls["esquemasCantos"].setValue(this.itemSelected.esquemasCantos);
+            
         }
     }
 
     public cancelTypeSubmit():void{
-        this.itemSelected = {
-            titulo: "",
-            tiempoliturgico:false,
-            status: false,
-            _id: "",
-        };
+
         this.typeSubmit = "";
         this.formGroup.controls["titulo"].setValue("");
         this.formGroup.controls["tiempoliturgico"].setValue(false);

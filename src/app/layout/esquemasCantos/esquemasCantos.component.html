@@ -10,7 +10,7 @@
                         </div>
                         <div class="btn-card">
                             <a class="btn btn-success" (click)="displayModal = !displayModal;cancelTypeSubmit()"><i
-                                    class="icon-plus"></i> <span>Tiempos Liturgicos</span></a>
+                                    class="icon-plus"></i> <span>Esquemas Cantos</span></a>
                         </div>
                     </div>
                     <table class="table table-striped table-hover">
@@ -82,6 +82,21 @@
                                 <span class="switch-handle"></span>
                             </label>
                         </div>
+                    </fieldset>
+
+                    <fieldset class="form-group">
+                        <label>Ligado a otro Esquema Canto</label>
+                        <div class="input-group">
+                            <span class="input-group-addon alignJustifyCenter">
+                                <i class="icon-link icon-formulario"></i>
+                            </span>
+                            <select class="form-control" formControlName="esquemasCantos" [class.is-invalid]="esquemaCantoNoValido">
+                                <option value="" selected>Seleccione</option>
+                                <option *ngFor="let item of esquemaCantos" [ngValue]="item._id">{{ item.titulo }}</option>
+                            </select>
+
+                        </div>
+                        <span class="text-error-input-general-form" *ngIf="esquemaCantoNoValido"> Este campo es requerido</span>
                     </fieldset>
 
 

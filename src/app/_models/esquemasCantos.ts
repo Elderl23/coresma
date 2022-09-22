@@ -5,6 +5,7 @@ export interface EsquemasCantos {
 export interface JsonResultadoEsquemasCantos {
     titulo: string;
     tiempoliturgico:boolean,
+    esquemasCantos:string,
     status: boolean;
     _id: string;
 }

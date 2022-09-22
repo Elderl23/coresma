@@ -10,7 +10,6 @@ import { Cantos, JsonResultadoCantos,EsquemasCantos, TiemposLiturgicos } from '@
 import { Store } from '@ngrx/store';
 import { StartAction } from '@app/_redux/spinner/actions'
 import { AppState } from '@app/_redux/spinner/interface';
-
 @Component({
     selector: 'app-tables',
     templateUrl: './component.html',
@@ -32,6 +31,9 @@ export class component implements OnInit {
     public btnRegresar: boolean = false;
     public btnRegresarEC: boolean = false;
 
+    public ligarAEsquema: boolean = false;
+    public tutuloLigarAEsquema: String = "";
+
     constructor(
         private formBuilder: FormBuilder,
         private apiService: CantosService,
@@ -47,6 +49,8 @@ export class component implements OnInit {
             descripcion: ['', Validators.required],
             tiemposLiturgiscos: ['', Validators.required],
             esquemasCantos: ['', Validators.required],
+            tiemposLiturgiscosMany: ['', Validators.required],
+            ligadoEsquemaCantos: [false],
         });
 
         this.notifier = notifierService;
@@ -93,6 +97,10 @@ export class component implements OnInit {
 
     public addItem(item,type): void {
         this.itemSelected = item;
+
+        console.log(this.itemSelected.tiemposLiturgiscosMany);
+        
+
         this.typeSubmit = type;
         if (type === 'editar') {
             this.formGroup.controls["tiemposLiturgiscos"].setValue("");
@@ -104,6 +112,26 @@ export class component implements OnInit {
             this.formGroup.controls['tiemposLiturgiscos'].setValue(this.itemSelected.tiemposLiturgiscos._id);
 
 
+            const arrayEsquemasCantos = [];
+            this.itemSelected.tiemposLiturgiscosMany.forEach((element) => {
+                arrayEsquemasCantos.push(element._id);
+            });
+
+            console.log(arrayEsquemasCantos);
+            
+
+            this.formGroup.controls['tiemposLiturgiscosMany'].setValue(arrayEsquemasCantos);
+
+
+
+
+            if (this.itemSelected.ligadoEsquemaCantos ) {
+                this.ligarAEsquema = true;
+                this.formGroup.controls["ligadoEsquemaCantos"].setValue(true);
+            }else{
+                this.formGroup.controls["ligadoEsquemaCantos"].setValue(false);
+            }
+            
         }
     }
 
@@ -150,6 +178,28 @@ export class component implements OnInit {
             .subscribe(data => {
                 this.esquemasCantosObject = data.jsonResultado;// ----> jsonResultado No se cambia viene la de interfaz de HttpClientInterface
             });
+    }
+
+    private onChange(value) {
+
+        let deviceValue = value.split(" ");
+
+        let loop = this.esquemasCantosObject;
+
+        this.ligarAEsquema = false;
+
+        for (let i = 0; i < loop.length; i++) {
+            if (loop[i].esquemasCantos != "") {
+                if (deviceValue[1] == loop[i].esquemasCantos) {
+                    this.ligarAEsquema = true;
+                    this.tutuloLigarAEsquema = loop[i].titulo;
+                }
+                
+                
+            }
+            
+          }
+
     }
 
     private consultaCatalogoTiemposLiturgicos():void {

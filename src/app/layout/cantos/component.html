@@ -1,6 +1,5 @@
 <div class="row">
     <div class="col col-xl-12">
-
         <div class="container-xl">
             
             <div class="table-responsive">
@@ -34,7 +33,11 @@
                                 <td>{{item.descripcion}}</td>
                                 <td>
                                     <span>
-                                        {{item.tiemposLiturgiscos.titulo}}
+                                        <span *ngFor="let item of item.tiemposLiturgiscosMany">
+                                            {{item.descripcion}}
+                                            <br>
+                                        </span>
+                                        
                                     </span>
                                 </td>
                                 <td>
@@ -111,13 +114,24 @@
                             <span class="input-group-addon alignJustifyCenter">
                                 <i class="icon-link icon-formulario"></i>
                             </span>
-                            <select class="form-control" formControlName="esquemasCantos" [class.is-invalid]="esquemaCantoNoValido">
+                            <select class="form-control" formControlName="esquemasCantos" [class.is-invalid]="esquemaCantoNoValido" (change)="onChange($event.target.value)">
                                 <option value="" selected>Seleccione</option>
                                 <option *ngFor="let item of esquemasCantosObject" [ngValue]="item._id">{{ item.titulo }}</option>
                             </select>
 
                         </div>
                         <span class="text-error-input-general-form" *ngIf="esquemaCantoNoValido"> Este campo es requerido</span>
+                    </fieldset>
+
+                    <fieldset class="form-group" *ngIf="ligarAEsquema">
+                        <label>Ligar a esquema?</label>
+                        <div class="input-group">
+                            <label class="switch switch-icon switch-pill switch-success">
+                                <input type="checkbox" id="is3dCheckBoxProxy" class="switch-input ng-valid ng-touched ng-dirty" formControlName="ligadoEsquemaCantos">
+                                <span class="switch-label" data-off="✘" data-on="✔" name="proxy"></span>
+                                <span class="switch-handle"></span>
+                            </label>
+                        </div>
                     </fieldset>
 
                     <fieldset class="form-group">
@@ -133,6 +147,20 @@
 
                         </div>
                         <span class="text-error-input-general-form" *ngIf="tiempoLiturgicoNoValido"> Este campo es requerido</span>
+                    </fieldset>
+
+                    <fieldset class="form-group">
+                        <label>Timepos liturgicos</label>
+                        <div class="input-group">
+                            <span class="input-group-addon alignJustifyCenter">
+                                <i class="icon-link icon-formulario"></i>
+                            </span>
+
+                            <select multiple class="form-control" formControlName="tiemposLiturgiscosMany" [class.is-invalid]="esquemasCantosNoValido">
+                                <option *ngFor="let item of tiempoLiturgicos" [ngValue]="item._id">{{ item.titulo }}</option>
+                            </select>
+                        </div>
+                        <span class="text-error-input-general-form" *ngIf="esquemasCantosNoValido"> Este campo es requerido</span>
                     </fieldset>
 
 
