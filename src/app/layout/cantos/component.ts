@@ -98,14 +98,15 @@ export class component implements OnInit {
     public addItem(item,type): void {
         this.itemSelected = item;
 
-        console.log(this.itemSelected.tiemposLiturgiscosMany);
+        console.log(this.itemSelected.ligadoEsquemaCantos);
         
 
         this.typeSubmit = type;
         if (type === 'editar') {
             this.formGroup.controls["tiemposLiturgiscos"].setValue("");
-            this.consultaCatalogoEsquemasCantos();
+            this.consultaCatalogoEsquemasCantos();//Consultamos los esquemas entrada, piedad, ....
             this.consultaCatalogoTiemposLiturgicos();
+
             this.formGroup.controls["titulo"].setValue(String(this.itemSelected.titulo));
             this.formGroup.controls["descripcion"].setValue(String(this.itemSelected.descripcion));
             this.formGroup.controls["esquemasCantos"].setValue(this.itemSelected.esquemasCantos._id);
@@ -118,19 +119,44 @@ export class component implements OnInit {
             });
 
             console.log(arrayEsquemasCantos);
+
+            
+            
             
 
             this.formGroup.controls['tiemposLiturgiscosMany'].setValue(arrayEsquemasCantos);
 
+            this.ligarAEsquema = true;
+            this.formGroup.controls["ligadoEsquemaCantos"].setValue(this.itemSelected.ligadoEsquemaCantos);
+
+            var that = this;
+
+            setTimeout(function(){
+
+                that.esquemasCantosObject.forEach((element) => {
+                    if (that.itemSelected.esquemasCantos.esquemasCantos == element._id) {
+                        console.log();
+                        that.tutuloLigarAEsquema = element.titulo;
+                    }
+                });
+            
+
+              },100);
+           
+
+            // if (this.itemSelected.ligadoEsquemaCantos ) {//si el camto se ligo a otro esquema eje.. entrada/salida salida/entrada
+                
 
 
+            
+                
 
-            if (this.itemSelected.ligadoEsquemaCantos ) {
-                this.ligarAEsquema = true;
-                this.formGroup.controls["ligadoEsquemaCantos"].setValue(true);
-            }else{
-                this.formGroup.controls["ligadoEsquemaCantos"].setValue(false);
-            }
+               
+            //     
+            //     this.formGroup.controls["ligadoEsquemaCantos"].setValue(true);
+            // }else{
+            //     this.formGroup.controls["ligadoEsquemaCantos"].setValue(false);
+            // }
             
         }
     }
@@ -184,20 +210,22 @@ export class component implements OnInit {
 
         let deviceValue = value.split(" ");
 
+        console.log(deviceValue[1]);
+        
+
         let loop = this.esquemasCantosObject;
 
         this.ligarAEsquema = false;
 
         for (let i = 0; i < loop.length; i++) {
             if (loop[i].esquemasCantos != "") {
+                console.log(loop[i].esquemasCantos);
+                
                 if (deviceValue[1] == loop[i].esquemasCantos) {
                     this.ligarAEsquema = true;
                     this.tutuloLigarAEsquema = loop[i].titulo;
                 }
-                
-                
             }
-            
           }
 
     }
