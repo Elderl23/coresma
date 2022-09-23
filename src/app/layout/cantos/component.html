@@ -156,11 +156,11 @@
                                 <i class="icon-link icon-formulario"></i>
                             </span>
 
-                            <select multiple class="form-control" formControlName="tiemposLiturgiscosMany" [class.is-invalid]="esquemasCantosNoValido">
+                            <select multiple class="form-control" formControlName="tiemposLiturgiscosMany" [class.is-invalid]="esquemaCantoManyNoValido">
                                 <option *ngFor="let item of tiempoLiturgicos" [ngValue]="item._id">{{ item.titulo }}</option>
                             </select>
                         </div>
-                        <span class="text-error-input-general-form" *ngIf="esquemasCantosNoValido"> Este campo es requerido</span>
+                        <span class="text-error-input-general-form" *ngIf="esquemaCantoManyNoValido"> Este campo es requerido</span>
                     </fieldset>
 
 

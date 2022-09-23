@@ -6,8 +6,10 @@ export interface JsonResultadoCantos {
     titulo: string;
     descripcion: string;
     esquemasCantos:EsquemasCantos,
+    tiemposLiturgiscosMany:EsquemasCantos[],
     tiemposLiturgiscos:TiemposLiturgiscos,
     status: boolean;
+    ligadoEsquemaCantos:boolean;
     _id: string;
 }
 
@@ -15,6 +17,7 @@ interface EsquemasCantos {
     titulo: string;
     tiempoliturgico:boolean,
     status: boolean;
+    esquemasCantos:  string;
     _id: string;
 }
 

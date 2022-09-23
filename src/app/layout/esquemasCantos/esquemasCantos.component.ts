@@ -33,6 +33,11 @@ export class EsquemasCantosComponent implements OnInit {
     }
 
 
+    get esquemaCantoNoValido() {
+        return this.formGroup.get('esquemasCantos').invalid && this.formGroup.get('esquemasCantos').touched;
+    }
+
+
     ngOnInit() {
         this.consulta();
     }

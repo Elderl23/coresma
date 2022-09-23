@@ -5,7 +5,7 @@ import { NotifierService } from "angular-notifier";
 
 
 import { CantosService, EsquemasCantosService, TiemposLiturgicosService } from '@app/_services';
-import { Cantos, JsonResultadoCantos,EsquemasCantos, TiemposLiturgicos } from '@app/_models';
+import { Cantos, JsonResultadoCantos,EsquemasCantos, JsonResultadoEsquemasCantos, TiemposLiturgicos } from '@app/_models';
 
 import { Store } from '@ngrx/store';
 import { StartAction } from '@app/_redux/spinner/actions'
@@ -26,6 +26,7 @@ export class component implements OnInit {
 
     public cantos: Cantos;//Variable que se va a iterar en el template
     public esquemasCantosObject: EsquemasCantos;//Variable que se va a iterar en el template
+    public esquemasCantosObjectv2: JsonResultadoEsquemasCantos[];//Variable que se va a iterar en el template
     public tiempoLiturgicos: TiemposLiturgicos;//Variable que se va a iterar en el template
 
     public btnRegresar: boolean = false;
@@ -33,6 +34,8 @@ export class component implements OnInit {
 
     public ligarAEsquema: boolean = false;
     public tutuloLigarAEsquema: String = "";
+
+    // private subscriptions: Subscription[];
 
     constructor(
         private formBuilder: FormBuilder,
@@ -54,7 +57,6 @@ export class component implements OnInit {
         });
 
         this.notifier = notifierService;
-
     }
 
     get tituloNoValido() {
@@ -73,6 +75,10 @@ export class component implements OnInit {
         return this.formGroup.get('esquemasCantos').invalid && this.formGroup.get('esquemasCantos').touched;
     }
 
+    get esquemaCantoManyNoValido() {
+        return this.formGroup.get('tiemposLiturgiscosMany').invalid && this.formGroup.get('tiemposLiturgiscosMany').touched;
+    }
+
 
     ngOnInit() {
         this.activatedRoute.params.subscribe(params => {
@@ -88,8 +94,6 @@ export class component implements OnInit {
                     this.btnRegresarEC = true;
                     this.btnRegresar = false;
                 }
-                
-                
                 
             }
           });
@@ -114,14 +118,16 @@ export class component implements OnInit {
 
 
             const arrayEsquemasCantos = [];
+
+
+            
             this.itemSelected.tiemposLiturgiscosMany.forEach((element) => {
                 arrayEsquemasCantos.push(element._id);
             });
 
+
             console.log(arrayEsquemasCantos);
 
-            
-            
             
 
             this.formGroup.controls['tiemposLiturgiscosMany'].setValue(arrayEsquemasCantos);
@@ -130,33 +136,17 @@ export class component implements OnInit {
             this.formGroup.controls["ligadoEsquemaCantos"].setValue(this.itemSelected.ligadoEsquemaCantos);
 
             var that = this;
-
             setTimeout(function(){
 
-                that.esquemasCantosObject.forEach((element) => {
+                that.esquemasCantosObjectv2.forEach((element) => {
                     if (that.itemSelected.esquemasCantos.esquemasCantos == element._id) {
-                        console.log();
                         that.tutuloLigarAEsquema = element.titulo;
                     }
                 });
             
 
               },100);
-           
 
-            // if (this.itemSelected.ligadoEsquemaCantos ) {//si el camto se ligo a otro esquema eje.. entrada/salida salida/entrada
-                
-
-
-            
-                
-
-               
-            //     
-            //     this.formGroup.controls["ligadoEsquemaCantos"].setValue(true);
-            // }else{
-            //     this.formGroup.controls["ligadoEsquemaCantos"].setValue(false);
-            // }
             
         }
     }
@@ -203,10 +193,11 @@ export class component implements OnInit {
         this.apiServiceEsquemaCanto.consulta()
             .subscribe(data => {
                 this.esquemasCantosObject = data.jsonResultado;// ----> jsonResultado No se cambia viene la de interfaz de HttpClientInterface
+                this.esquemasCantosObjectv2 = data.jsonResultado;
             });
     }
 
-    private onChange(value) {
+    public onChange(value) {
 
         let deviceValue = value.split(" ");
 
@@ -217,7 +208,7 @@ export class component implements OnInit {
 
         this.ligarAEsquema = false;
 
-        for (let i = 0; i < loop.length; i++) {
+        for (let i = 0; i < loop.jsonResultado.length; i++) {
             if (loop[i].esquemasCantos != "") {
                 console.log(loop[i].esquemasCantos);
                 
