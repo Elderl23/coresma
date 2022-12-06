@@ -25,7 +25,7 @@ export class component implements OnInit {
     public formGroup: FormGroup;
 
     public cantos: Cantos;//Variable que se va a iterar en el template
-    public esquemasCantosObject: EsquemasCantos;//Variable que se va a iterar en el template
+    public esquemasCantosObject: JsonResultadoEsquemasCantos[];//Variable que se va a iterar en el template
     public esquemasCantosObjectv2: JsonResultadoEsquemasCantos[];//Variable que se va a iterar en el template
     public tiempoLiturgicos: TiemposLiturgicos;//Variable que se va a iterar en el template
 
@@ -165,7 +165,7 @@ export class component implements OnInit {
     private consulta():void {
         this.apiService.consulta()
             .subscribe(data => {
-                this.cantos = data.jsonResultado;// ----> jsonResultado No se cambia viene la de interfaz de HttpClientInterface
+                this.cantos = data.jsonResultado.sort(( a, b ) => a < b ? 1 : -1 );// ----> jsonResultado No se cambia viene la de interfaz de HttpClientInterface
                 console.log(this.cantos);
                 
             });
@@ -208,7 +208,7 @@ export class component implements OnInit {
 
         this.ligarAEsquema = false;
 
-        for (let i = 0; i < loop.jsonResultado.length; i++) {
+        for (let i = 0; i < loop.length; i++) {
             if (loop[i].esquemasCantos != "") {
                 console.log(loop[i].esquemasCantos);
                 

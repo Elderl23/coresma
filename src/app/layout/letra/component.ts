@@ -119,6 +119,13 @@ export class component implements OnInit {
               control.clear()
             //   self.formGroupArray.reset();//Borrarmos los datos del control
 
+
+            console.log("Letras....");
+
+            console.log(data.jsonResultado);
+            
+            
+
               data.jsonResultado.forEach( function(valor) {
                 control.push(self.formBuilder.group({letra:[valor.texto],etiqueta:[valor.etiqueta],estilo:[valor.estilo],id:[valor._id]}));
             });
@@ -155,7 +162,10 @@ export class component implements OnInit {
 
     public guardar(): void {
 
+
         if (!this.formGroupArray.invalid) {
+
+
             console.log(this.formGroupArray.value.letras);
 
             if (this.typeSubmit !== "editar") {
