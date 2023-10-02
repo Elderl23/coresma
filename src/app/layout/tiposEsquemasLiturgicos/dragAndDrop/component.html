@@ -1,0 +1,47 @@
+<div class="col col-xl-12">
+
+    <div class="container-xl">
+        <div class="table-responsive">
+            <div class="table-wrapper">
+                <div class="table-title">
+                    <div class="title-card">
+                        <h2><b>{{receivedParentItem.titulo}}</b></h2>
+                    </div>
+                </div>
+
+                <div class="card-block">
+                    <form novalidate>
+
+                        <div class="container">
+                            <h2>Esquemas Cantos Nuevos</h2>
+                            <div cdkDropList #moviesList="cdkDropList" [cdkDropListData]="ListArraglo" [cdkDropListConnectedTo]="[doneList]" class="movie-list" (cdkDropListDropped)="onDrop($event)">
+                                <div class="movie-block" *ngFor="let item of ListArraglo" cdkDrag>{{item.titulo}}</div>
+                            </div>
+                        </div>
+
+                        <div class="container">
+                            <h2>Esquemas Cantos Agregados</h2>
+                            <div cdkDropList #doneList="cdkDropList" [cdkDropListData]="ListArragloWatched" [cdkDropListConnectedTo]="[moviesList]" class="movie-list" (cdkDropListDropped)="onDrop($event)">
+                                <div class="movie-block" *ngFor="let itemWatched of ListArragloWatched" cdkDrag>{{itemWatched.titulo}}</div>
+                            </div>
+                        </div>
+
+
+                        <div class="modal-footer">
+                            <button class="btn btn-primary" (click)="sendMessageToParent()">
+                                <i class="icon-floppy-disk icoBntModal"></i>&nbsp;&nbsp;Cancelar
+                            </button>
+
+                            <button class="btn btn-success" (click)="saveNewDate()">
+                                <i class="icon-floppy-disk icoBntModal"></i>&nbsp;&nbsp;Guardar
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>

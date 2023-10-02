@@ -1,0 +1,3 @@
+docker network connect coresmaadmin_default mallasombra_nginx-proxy_1
+
+docker restart mallasombra_nginx-proxy_1

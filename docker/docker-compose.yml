@@ -1,0 +1,11 @@
+version: "2"
+services:
+  nginx:
+    build:
+      context: .
+    environment:
+      - VIRTUAL_HOST=coresma-admin.devder.com,www.coresma-admin.devder.com
+      - LETSENCRYPT_HOST=coresma-admin.devder.com,www.coresma-admin.devder.com
+      - LETSENCRYPT_EMAIL=elderlopezfelix@gmail.com
+    expose:
+      - "80"

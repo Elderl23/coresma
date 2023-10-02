@@ -1,0 +1,62 @@
+.before_script_template:
+    before_script:
+        - apt-get update -qq
+        - apt-get install -qq git
+        # Setup SSH deploy keys
+        - 'which ssh-agent || ( apt-get install -qq openssh-client )'
+        - eval $(ssh-agent -s)
+        - apt-get install sshpass
+        - apt-get install openssh-client
+
+image: node:10
+
+stages:
+  - install
+  - build
+  - deploy
+
+cache:
+    key: "$CI_BUILD_REF_NAME"
+    untracked: true
+    paths:
+        - node_modules/
+
+install:
+  stage: install
+  script:
+    - npm install
+  artifacts:
+    expire_in: 1h 
+    paths:
+      - node_modules/
+  only:
+    - master
+
+
+build:
+    stage: build
+    variables:
+        BUILD_CONFIG: 'production'
+    dependencies:
+        - install
+    script:
+      - npm run build --prod
+    artifacts:
+        expire_in: 1h 
+        paths:
+          - dist/
+    only:
+        - master
+
+deploy_staging:
+    extends: .before_script_template
+    stage: deploy
+    dependencies:
+        - build
+    script:
+        - sshpass -V
+        - export SSHPASS=$vps_key
+        - sshpass -e scp -o stricthostkeychecking=no -r $(pwd)/docker/django.conf $(pwd)/docker/docker-compose.yml $(pwd)/docker/Dockerfile $(pwd)/dist/ root@157.245.221.220:/var/apps/docker/angular/coresmaAdmin
+        - sshpass -e ssh -o StrictHostKeyChecking=no root@157.245.221.220 'cd ../var/apps/docker/angular/coresmaAdmin && docker-compose up --build -d && docker images && docker ps -a'
+    only:
+        - master

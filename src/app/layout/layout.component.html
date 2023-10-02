@@ -1,0 +1,93 @@
+<div class="contenido">
+    <app-header></app-header>
+
+    <input type="checkbox" id="check">
+
+    <div class="mobile_nav">
+        <div class="nav_bar">
+            <img src="../../assets/1.png" class="mobile_profile_image" alt="">
+            <i class="icon-menu nav_btn" (click)="openMenuMovil()"></i>
+        </div>
+        <div class="mobile_nav_items">
+
+            <a [routerLink]="['/dashboard']" [routerLinkActive]="['router-link-active']">
+                <i class="icon-home"></i>
+                <span>Dashboard</span>
+            </a>
+
+            <a [routerLink]="['/cantos']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                <i class="icon-map"></i>&nbsp;
+                <span>Cantos</span>
+            </a>
+
+            <a [routerLink]="['/tipos-esquemas-liturgicos']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                <i class="icon-map"></i>&nbsp;
+                <span>Tipos Esquemas</span>
+            </a>
+
+            <a [routerLink]="['/esquemas-cantos']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                <i class="icon-map"></i>&nbsp;
+                <span>Esquemas Cantos</span>
+            </a>
+
+            <a [routerLink]="['/tiempos-liturgicos']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                <i class="icon-map"></i>&nbsp;
+                <span>Tiempos Liturgicos</span>
+            </a>
+
+            <a [routerLink]="['/users']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                <i class="icon-map"></i>&nbsp;
+                <span>Usuarios</span>
+            </a>
+
+        </div>
+    </div>
+
+    <div class="sidebar">
+        <div class="profile_info">
+            <img src="../../assets/1.png" class="profile_image" alt="">
+            <h4>Jessica</h4>
+        </div>
+
+        <a [routerLink]="['/dashboard']" [routerLinkActive]="['router-link-active']">
+            <i class="icon-home"></i>
+            <span>Dashboard</span>
+        </a>
+
+        <a [routerLink]="['/cantos']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="icon-map"></i>&nbsp;
+            <span>Cantos</span>
+        </a>
+
+        <a [routerLink]="['/tipos-esquemas-liturgicos']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="icon-map"></i>&nbsp;
+            <span>Tipos Esquemas</span>
+        </a>
+
+        <a [routerLink]="['/esquemas-cantos']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="icon-map"></i>&nbsp;
+            <span>Esquemas Cantos</span>
+        </a>
+
+        <a [routerLink]="['/tiempos-liturgicos']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="icon-map"></i>&nbsp;
+            <span>Tiempos Liturgicos</span>
+        </a>
+
+        <!-- <a [routerLink]="['/users']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="icon-map"></i>&nbsp;
+            <span>Usuarios</span>
+        </a> -->
+
+
+    </div>
+
+    <div class="content">
+        <router-outlet></router-outlet>
+    </div>
+
+</div>
+
+<div *ngIf="spinner" class="Loading">
+    <div class="loader"></div>
+</div>

@@ -1,0 +1,71 @@
+<div class="row">
+    <div class="col col-xl-12">
+
+        <div class="container-xl">
+            <div class="table-responsive">
+                <a routerLink="{{urlRedirec}}" class="regresar">Regresar</a>
+                <div class="table-wrapper">
+                    <div class="table-title">
+                        <div class="title-card">
+                            <h2><b>{{titulo}}</b></h2>
+                        </div>
+                        <!-- <div class="btn-card">
+                            <a class="btn btn-success" (click)="displayModal = !displayModal;cancelTypeSubmit()"><i class="icon-plus"></i> <span>Letra</span></a>
+                        </div> -->
+                    </div>
+                    <form [formGroup]="formGroupArray" (ngSubmit)="guardar()" novalidate>
+                        <div formArrayName="letras">
+                            <div class="group-letra" *ngFor="let item of getLetras.controls; let pointIndex=index" [formGroupName]="pointIndex">
+                                <input type="text" class="form-control input-letras" formControlName="letra">
+                                <input type="text" class="form-control input-estilo" formControlName="estilo">
+                                <input type="text" class="form-control input-etiqueta" formControlName="etiqueta">
+                            </div>
+
+                        </div>
+                        <div class="botonesAccion">
+                            <a class="btn btn-danger" (click)="eliminarinput()"><i class="icon-plus"></i> <span>Eliminar</span></a>
+                            <a class="btn btn-success" (click)="agregarinput()"><i class="icon-plus"></i> <span>Agregar</span></a>
+                        </div>
+                        <div class="botonGuardar">
+                            <button type="submit" class="btn btn-success">
+                                <i class="icon-floppy-disk icoBntModal"></i>&nbsp;&nbsp;Guardar
+                            </button>
+                        </div>
+                       
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<app-dialog [(visible)]="showDialogAlert">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button (click)="showDialogAlert = !showDialogAlert;" type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                <span class="icon-cross" aria-hidden="true"></span>
+            </button>
+            <h4 class="modal-title custom_align" id="Heading">Aviso</h4>
+        </div>
+        <div class="modal-body">
+            <div class="card-block">
+                <fieldset class="form-group">
+                    <label>¿Está seguro de que desea eliminar el registro?</label>
+                </fieldset>
+
+                <div class="modal-footer">
+                    <button (click)="showDialogAlert = !showDialogAlert;" type="button" class="btn btn-info">
+                        <i class="icon-cross icoBntModal"></i>&nbsp;&nbsp;Cancelar
+                    </button>
+
+                    <button (click)="showDialogAlert = !showDialogAlert;confirmarEliminar()" type="submit" class="btn btn-danger">
+                        <i class="icon-floppy-disk icoBntModal"></i>&nbsp;&nbsp;Aceptar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</app-dialog>
