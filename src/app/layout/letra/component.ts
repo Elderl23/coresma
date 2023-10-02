@@ -169,7 +169,7 @@ export class component implements OnInit {
             console.log(this.formGroupArray.value.letras);
 
             if (this.typeSubmit !== "editar") {
-              
+                debugger
                 this.apiService.guardarLetra(this.formGroupArray.value)
                 .subscribe(
                     data => {

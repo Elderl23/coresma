@@ -8,15 +8,16 @@ export const environment = {
   apiUrl: 'https://devder.com/',
   apiUrlCoresmaApp:'http://143.198.224.159:3021/',
   apiUrlFirebase:'https://identitytoolkit.googleapis.com/v1/accounts:',
+  apiUrlCore:'http://143.198.224.159:8080/',
   firebase : {
-    apiKey: "AIzaSyCbNLXEcfVeQjbVnpelMJbQKTUVzXKOg9Q",
-    authDomain: "coresma-24446.firebaseapp.com",
     databaseURL: "https://coresma-24446.firebaseio.com",
-    projectId: "coresma-24446",
-    storageBucket: "coresma-24446.appspot.com",
-    messagingSenderId: "65528054114",
-    appId: "1:65528054114:web:8f96ce6003060cf478ac3b",
-    measurementId: "G-B188X6JLM8"
+    apiKey: "AIzaSyDb0cMx9ArwTs2Pgb9NOmewhy3X0nXh7Rw",
+    authDomain: "coresma-57616.firebaseapp.com",
+    projectId: "coresma-57616",
+    storageBucket: "coresma-57616.appspot.com",
+    messagingSenderId: "655421647976",
+    appId: "1:655421647976:web:16fde6c959e8566c315fdd",
+    measurementId: "G-V01EDKBZZP"
   }
 };
 

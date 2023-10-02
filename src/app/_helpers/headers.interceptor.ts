@@ -15,8 +15,6 @@ export class HeadersInterceptor implements HttpInterceptor {
     }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        
-       
 
 
         let authorization = '';

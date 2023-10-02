@@ -31,6 +31,7 @@ export class HeaderComponent implements OnInit {
         this.afAuth.auth.onAuthStateChanged((user) => {
             if (!user) {
               console.log("logout");
+              console.log("cerramos3");
               sessionStorage.setItem('token', '')
             //   this.ngZone.run(() => {
             //     console.log("logout");
@@ -67,6 +68,7 @@ export class HeaderComponent implements OnInit {
     }
 
     onLoggedout() {
+        console.log("cerramos5");
         sessionStorage.removeItem('token');
     }
 }

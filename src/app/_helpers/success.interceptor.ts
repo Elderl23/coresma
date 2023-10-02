@@ -20,7 +20,7 @@ export class SuccessInterceptor implements HttpInterceptor {
 
                 let response = event.body;
                 if (response !== null && response.token !==  undefined && response.token !== "") {
-                    sessionStorage.setItem('token', response.token)
+                    // sessionStorage.setItem('token', response.token)
                 }
                 event = event.clone({ body: response })
             }
